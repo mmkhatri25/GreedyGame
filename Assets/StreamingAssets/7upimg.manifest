@@ -1,0 +1,421 @@
+ManifestFileVersion: 0
+CRC: 888934336
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: aafa66025369e7846275edf29bc3f9fa
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1c96afa956377ccbd676a26e453cf51b
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f1b3b4b945939a54ea0b23d3396115fb, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Images/7updownGarphics/Cube 1/4.png
+- Assets/Images/7updownGarphics/Dice probability/6/p_00019.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00024.png
+- Assets/Images/7updownGarphics/All Images/Hand.png
+- Assets/Images/7updownGarphics/Loader_animation/11.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f14.png
+- Assets/Images/7updownGarphics/All Images/Stop Betting.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f16.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00005.png
+- Assets/Images/7updownGarphics/Animation/Cubr Jar/7 Up Final.png
+- Assets/Images/7updownGarphics/Loader_animation/49.png
+- Assets/Images/7updownGarphics/Loader_animation/9.png
+- Assets/Images/7updownGarphics/Dice probability/6/p_00024.png
+- Assets/Images/7updownGarphics/Loader_animation/26.png
+- Assets/Images/7updownGarphics/All Images/R I Con 2.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00025.png
+- Assets/Images/7updownGarphics/Animation/Cubr Jar/jarcube.mat
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00022.png
+- Assets/Images/7updownGarphics/All Images/15.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00017.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f19.png
+- Assets/Images/7updownGarphics/All Images/Andar Bahar.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00064.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f6.png
+- Assets/Images/7updownGarphics/All Images/Palyar Bar.png
+- Assets/Images/7updownGarphics/All Images/500.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00063.png
+- Assets/Images/7updownGarphics/All Images/changed images/Table_center.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f15.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00033.png
+- Assets/Images/7updownGarphics/Loader_animation/44.png
+- Assets/Images/7updownGarphics/Animation/Dice/40.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00005.png
+- Assets/Images/7updownGarphics/Loader_animation/25.png
+- Assets/Images/7updownGarphics/lobby_icon/shop.png
+- Assets/Images/7updownGarphics/Dice probability/7/p_00015.png
+- Assets/Images/7updownGarphics/Dice probability/10/p_00028.png
+- Assets/Images/7updownGarphics/lobby_icon/Bg.png
+- Assets/Images/7updownGarphics/Dice probability/10/p_00033.png
+- Assets/Images/7updownGarphics/Cube/6.png
+- Assets/Images/7updownGarphics/All Images/3.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f20.png
+- Assets/Images/7updownGarphics/Dice probability/9/p_00027.png
+- Assets/Images/7updownGarphics/Cube 1/2.png
+- Assets/Images/7updownGarphics/Loader_animation/48.png
+- Assets/Images/7updownGarphics/Loader_animation/36.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00011.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00000.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00012.png
+- Assets/Images/7updownGarphics/All Images/R I Con 1.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f4.png
+- Assets/Images/7updownGarphics/lobby_icon/sound-1.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f11.png
+- Assets/Images/7updownGarphics/All Images/1000.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00003.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00010.png
+- Assets/Images/7updownGarphics/Loader_animation/39.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00036.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00061.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00042.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f20.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f19.png
+- Assets/Images/7updownGarphics/All Images/Background.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f8.png
+- Assets/Images/7updownGarphics/Loader_animation/19.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f7.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00070.png
+- Assets/Images/7updownGarphics/All Images/12.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f2.png
+- Assets/Images/7updownGarphics/All Images/T Left Part.png
+- Assets/Images/7updownGarphics/Cube 1/6.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00021.png
+- Assets/Images/7updownGarphics/Dice probability/5/p_00003.png
+- Assets/Images/7updownGarphics/All Images/Jaar.png
+- Assets/Images/7updownGarphics/Dice probability/3/p_00006.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f21.png
+- Assets/Images/7updownGarphics/lobby_icon/BG2.png
+- Assets/Images/7updownGarphics/Loader_animation/2.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00057.png
+- Assets/Images/7updownGarphics/All Images/17.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00030.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00017.png
+- Assets/Images/7updownGarphics/All Images/T Middle.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00034.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f9.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00002.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00019.png
+- Assets/Images/7updownGarphics/Loader_animation/37.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f5.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00020.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00021.png
+- Assets/Images/7updownGarphics/Dice probability/5/p_00018.png
+- Assets/Images/7updownGarphics/All Images/2.png
+- Assets/Images/7updownGarphics/Loader_animation/3.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00009.png
+- Assets/Images/7updownGarphics/Cube/3.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00018.png
+- Assets/Images/7updownGarphics/Dice probability/9/p_00017.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00068.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f16.png
+- Assets/Images/7updownGarphics/Dice probability/8/p_00011.png
+- Assets/Images/7updownGarphics/Animation/Cubr Jar/7 Up Final.json
+- Assets/Images/7updownGarphics/All Images/28.png
+- Assets/Images/7updownGarphics/Cube/5.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00037.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00053.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f3.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f18.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f10.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00036.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00016.png
+- Assets/Images/7updownGarphics/Loader_animation/8.png
+- Assets/Images/7updownGarphics/Dice probability/6/p_00014.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f22.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00015.png
+- Assets/Images/7updownGarphics/Animation/Cubr Jar/7 Up Final.txt
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00049.png
+- Assets/Images/7updownGarphics/Dice probability/11/p_00034.png
+- Assets/Images/7updownGarphics/Loader_animation/47.png
+- Assets/Images/7updownGarphics/Loader_animation/41.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00046.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00066.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00007.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00038.png
+- Assets/Images/7updownGarphics/Cube 1/5.png
+- Assets/Images/7updownGarphics/All Images/68.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00030.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00006.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00065.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00026.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f11.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00052.png
+- Assets/Images/7updownGarphics/Loader_animation/10.png
+- Assets/Images/7updownGarphics/Dice probability/8/p_00021.png
+- Assets/Images/7updownGarphics/All Images/19.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00001.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00015.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f18.png
+- Assets/Images/7updownGarphics/All Animation/7 Up Final2.png
+- Assets/Images/7updownGarphics/All Images/text1.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00011.png
+- Assets/Images/7updownGarphics/lobby_icon/music_icon.png
+- Assets/Images/7updownGarphics/Cube/1 Red.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f12.png
+- Assets/Images/7updownGarphics/All Images/22.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00014.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f4.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f3.png
+- Assets/Images/7updownGarphics/Cube 1/1 Blck.png
+- Assets/Images/7updownGarphics/Dice probability/6/p_00004.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00010.png
+- Assets/Images/7updownGarphics/All Images/100.png
+- Assets/Images/7updownGarphics/All Images/changed images/White.png
+- Assets/Images/7updownGarphics/Loader_animation/35.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00023.png
+- Assets/Images/7updownGarphics/All Images/changed images/center-C 1.png
+- Assets/Images/7updownGarphics/Animation/Cubr Jar/cubeJar.asset
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f19.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f1.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00039.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00050.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00014.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f14.png
+- Assets/Images/7updownGarphics/All Images/25.png
+- Assets/Images/7updownGarphics/All Images/50.png
+- Assets/Images/7updownGarphics/All Images/10.png
+- Assets/Images/7updownGarphics/Dice probability/7/p_00010.png
+- Assets/Images/7updownGarphics/All Images/L Light.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f13.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f21.png
+- Assets/Images/7updownGarphics/All Images/1.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00008.png
+- Assets/Images/7updownGarphics/All Images/Girl.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00031.png
+- Assets/Images/7updownGarphics/Dice probability/7/p_00020.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00048.png
+- Assets/Images/7updownGarphics/All Images/changed images/left_c 1.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f14.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00008.png
+- Assets/Images/7updownGarphics/Girl/7 Up Final.png
+- Assets/Images/7updownGarphics/All Images/T Right Part.png
+- Assets/Images/7updownGarphics/lobby_icon/sound_close_icon.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00044.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00013.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f21.png
+- Assets/Images/7updownGarphics/lobby_icon/Lobby.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00035.png
+- Assets/Images/7updownGarphics/Animation/Dice/jar.asset
+- Assets/Images/7updownGarphics/Dice probability/4/p_00012.png
+- Assets/Images/7updownGarphics/Loader_animation/5.png
+- Assets/Images/7updownGarphics/All Images/Palyar Bar_edited.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00037.png
+- Assets/Images/7updownGarphics/Loader_animation/24.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f12.png
+- Assets/Images/7updownGarphics/All Animation/7 Up Final3.png
+- Assets/Images/7updownGarphics/All Images/4.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00027.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00062.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f7.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00038.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00032.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00004.png
+- Assets/Images/7updownGarphics/lobby_icon/game_play_icon.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00067.png
+- Assets/Images/7updownGarphics/Loader_animation/20.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00034.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00043.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00059.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00006.png
+- Assets/Images/7updownGarphics/Animation/Dice/7 Up Final.txt
+- Assets/Images/7updownGarphics/Dice probability/5/p_00008.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00035.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f23.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f13.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00025.png
+- Assets/Images/7updownGarphics/All Images/M Light.png
+- Assets/Images/7updownGarphics/Loader_animation/31.png
+- Assets/Images/7updownGarphics/Animation/Dice/7 Up Final_SkeletonData.asset
+- Assets/Images/7updownGarphics/Loader_animation/45.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f1.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f23.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00026.png
+- Assets/Images/7updownGarphics/All Images/14.png
+- Assets/Images/7updownGarphics/Loader_animation/43.png
+- Assets/Images/7updownGarphics/All Images/21.png
+- Assets/Images/7updownGarphics/Dice probability/8/p_00031.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00040.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f22.png
+- Assets/Images/7updownGarphics/Dice probability/7/p_00025.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00029.png
+- Assets/Images/7updownGarphics/All Images/BG.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00051.png
+- Assets/Images/7updownGarphics/Loader_animation/46.png
+- Assets/Images/7updownGarphics/All Images/6.png
+- Assets/Images/7updownGarphics/lobby_icon/lobby_icon.png
+- Assets/Images/7updownGarphics/Cube 1/1 Red.png
+- Assets/Images/7updownGarphics/Animation/Dice/New Material.mat
+- Assets/Images/7updownGarphics/All Images/40.png
+- Assets/Images/7updownGarphics/Loader_animation/42.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f22.png
+- Assets/Images/7updownGarphics/All Images/Table line.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f20.png
+- Assets/Images/7updownGarphics/Loader_animation/18.png
+- Assets/Images/7updownGarphics/lobby_icon/Sound.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f5.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00058.png
+- Assets/Images/7updownGarphics/All Images/Buy I con.png
+- Assets/Images/7updownGarphics/All Images/changed images/right_side.png
+- Assets/Images/7updownGarphics/All Images/rectangle.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f6.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00071.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00012.png
+- Assets/Images/7updownGarphics/Dice probability/9/p_00022.png
+- Assets/Images/7updownGarphics/Loader_animation/27.png
+- Assets/Images/7updownGarphics/Dice probability/11/p_00029.png
+- Assets/Images/7updownGarphics/Loader_animation/13.png
+- Assets/Images/7updownGarphics/Dice probability/9/p_00032.png
+- Assets/Images/7updownGarphics/7updownrule_page/back.png
+- Assets/Images/7updownGarphics/Dice probability/12/p_00035.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f11.png
+- Assets/Images/7updownGarphics/All Images/changed images/right_c 1.png
+- Assets/Images/7updownGarphics/All Images/R Light.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00018.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00055.png
+- Assets/Images/7updownGarphics/Loader_animation/32.png
+- Assets/Images/7updownGarphics/Loader_animation/6.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f15.png
+- Assets/Images/7updownGarphics/All Images/place_your_bet.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00028.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f5.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f10.png
+- Assets/Images/7updownGarphics/All Images/7.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f18.png
+- Assets/Images/7updownGarphics/Dice probability/8/p_00016.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f7.png
+- Assets/Images/7updownGarphics/Loader_animation/29.png
+- Assets/Images/7updownGarphics/Dice probability/7/p_00005.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00060.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00039.png
+- Assets/Images/7updownGarphics/Loader_animation/12.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00029.png
+- Assets/Images/7updownGarphics/Dice probability/4/p_00002.png
+- Assets/Images/7updownGarphics/Loader_animation/17.png
+- Assets/Images/7updownGarphics/All Animation/7 Up Final.json
+- Assets/Images/7updownGarphics/Dice probability/2/p_00000.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00022.png
+- Assets/Images/7updownGarphics/Loader_animation/33.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00007.png
+- Assets/Images/7updownGarphics/lobby_icon/setting.png
+- Assets/Images/7updownGarphics/Loader_animation/34.png
+- Assets/Images/7updownGarphics/Dice probability/10/p_00023.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f3.png
+- Assets/Images/7updownGarphics/Cube/4.png
+- Assets/Images/7updownGarphics/Loader_animation/28.png
+- Assets/Images/7updownGarphics/Loader_animation/38.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f8.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f4.png
+- Assets/Images/7updownGarphics/All Images/changed images/left_side_2-6.png
+- Assets/Images/7updownGarphics/Loader_animation/21.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00054.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f23.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f16.png
+- Assets/Images/7updownGarphics/7updownrule_page/7up_rule_page.png
+- Assets/Images/7updownGarphics/Animation/Dice/7 Up Final.json
+- Assets/Images/7updownGarphics/All Animation/7 Up Final4.png
+- Assets/Images/7updownGarphics/Cube 1/3.png
+- Assets/Images/7updownGarphics/All Images/13.png
+- Assets/Images/7updownGarphics/All Images/Chair.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00028.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00024.png
+- Assets/Images/7updownGarphics/lobby_icon/Line.png
+- Assets/Images/7updownGarphics/lobby_icon/music_icon _close.png
+- Assets/Images/7updownGarphics/All Images/changed images/Table_border.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00001.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00031.png
+- Assets/Images/7updownGarphics/Dice probability/7/p_00030.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00009.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00004.png
+- Assets/Images/7updownGarphics/Dice probability/5/p_00013.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00000.png
+- Assets/Images/7updownGarphics/lobby_icon/Music.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f15.png
+- Assets/Images/7updownGarphics/Animation/Cubr Jar/cubeJarAtlas.asset
+- Assets/Images/7updownGarphics/Loader_animation/15.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f1.png
+- Assets/Images/7updownGarphics/All Images/Clock.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00045.png
+- Assets/Images/7updownGarphics/Loader_animation/40.png
+- Assets/Images/7updownGarphics/All Images/7 UP Down.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f2.png
+- Assets/Images/7updownGarphics/Dice probability/4/p_00007.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f9.png
+- Assets/Images/7updownGarphics/Animation/Dice/7 Up Final.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00047.png
+- Assets/Images/7updownGarphics/All Images/changed images/Table_Base.png
+- Assets/Images/7updownGarphics/SS.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00016.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f9.png
+- Assets/Images/7updownGarphics/All Images/18.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f17.png
+- Assets/Images/7updownGarphics/All Images/8.png
+- Assets/Images/7updownGarphics/Animation/Dice/test.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00069.png
+- Assets/Images/7updownGarphics/Loader_animation/14.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f10.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00013.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00020.png
+- Assets/Images/7updownGarphics/All Images/9.png
+- Assets/Images/7updownGarphics/All Images/26.png
+- Assets/Images/7updownGarphics/Loader_animation/4.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00033.png
+- Assets/Images/7updownGarphics/Loader_animation/1.png
+- Assets/Images/7updownGarphics/Loader_animation/23.png
+- Assets/Images/7updownGarphics/All Images/5.png
+- Assets/Images/7updownGarphics/All Images/20.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00019.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00041.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f8.png
+- Assets/Images/7updownGarphics/All Animation/countdown/2/countdown_00032.png
+- Assets/Images/7updownGarphics/Dice probability/8/p_00026.png
+- Assets/Images/7updownGarphics/Dice probability/6/p_00009.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f2.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00027.png
+- Assets/Images/7updownGarphics/All Images/changed images/center.png
+- Assets/Images/7updownGarphics/All Images/16.png
+- Assets/Images/7updownGarphics/All Images/Upper I Con.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f6.png
+- Assets/Images/7updownGarphics/Cube/1 Blck.png
+- Assets/Images/7updownGarphics/All Images/5000.png
+- Assets/Images/7updownGarphics/Cube/2.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/3_animation/f17.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f13.png
+- Assets/Images/7updownGarphics/All Animation/countdown/3/countdown_00056.png
+- Assets/Images/7updownGarphics/All Animation/countdown/1/countdown_00002.png
+- Assets/Images/7updownGarphics/Animation/Dice/New Material_OutsideMask.mat
+- Assets/Images/7updownGarphics/lobby_icon/Rule_icon.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00003.png
+- Assets/Images/7updownGarphics/All Images/11.png
+- Assets/Images/7updownGarphics/Girl/7 Up Final.json
+- Assets/Images/7updownGarphics/All Images/67.png
+- Assets/Images/7updownGarphics/Loader_animation/16.png
+- Assets/Images/7updownGarphics/All Images/Layer 1.png
+- Assets/Images/7updownGarphics/Dice probability/3/p_00001.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/1_animation/f12.png
+- Assets/Images/7updownGarphics/Loader_animation/22.png
+- Assets/Images/7updownGarphics/Loader_animation/30.png
+- Assets/Images/7updownGarphics/All Animation/Jar Animation/jar_00023.png
+- Assets/Images/7updownGarphics/Loader_animation/7.png
+- Assets/Images/7updownGarphics/All Animation/Count_down_animation/2_animation/f17.png
+- Assets/Images/7updownGarphics/lobby_icon/Rule.png
+- Assets/Images/7updownGarphics/All Animation/7 Up Final.png
+Dependencies: []

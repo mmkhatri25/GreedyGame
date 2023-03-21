@@ -1,0 +1,23 @@
+{
+    "name": "Lobby",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d7650dbc20c40d44284ea1204d045834",
+        "GUID:3e688842587e9b241b742af37f8704ff",
+        "GUID:d8de5bdbcb8545d46a9e2b8fcb48e167",
+        "GUID:84611ba62938798439938e77a45de671",
+        "GUID:3cfb9efa35d4f124aa29a0ef843600de",
+        "GUID:dca87b074cd6aca4ea910bc0c38a2a75",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

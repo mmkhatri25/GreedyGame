@@ -1,0 +1,11 @@
+ManifestFileVersion: 0
+CRC: 3693524059
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: 7upscene
+      Dependencies:
+        Dependency_0: 7upimg
+    Info_1:
+      Name: 7upimg
+      Dependencies: {}

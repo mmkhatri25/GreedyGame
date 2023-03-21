@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/SplashScene.unity
+    guid: 08893c01a9dc8454aafdf29ccbfa9e7f
+  - enabled: 1
+    path: Assets/Scenes/GreedyScene.unity
+    guid: 33477e9325d04c548887c6c6f1ddfc4b
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 129adf3b9c5b0064a80b6a936f1d26f3, type: 2}
