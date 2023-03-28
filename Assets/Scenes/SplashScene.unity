@@ -332,10 +332,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GreedyGameScene: GreedyScene
-  isUAT: 0
+  isUAT: 1
   url: 
-  uatUrl: url:https://gapi-uat.yaravoice.com:4002/
-  productionUrl: https://gapi.yaravoice.com:4002/auth/login
+  uatUrl: https://gapi-uat.yaravoice.com:4002
+  productionUrl: https://gapi.yaravoice.com:4002
+  userIdVar: 640e0ff266cf6a3ab3e722a3
 --- !u!114 &1244813201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,11 +614,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 495038765954590892, guid: b1c317f1d143d46308afc126622a189c, type: 3}
       propertyPath: isUAT
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 495038765954590892, guid: b1c317f1d143d46308afc126622a189c, type: 3}
       propertyPath: UAT_url
-      value: wss://gapi-uat.yaravoice.com:4002/socket.io/?EIO=3&transport=websocke
+      value: wss://gapi-uat.yaravoice.com:4002/socket.io/?EIO=3&transport=websocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 495038765954590892, guid: b1c317f1d143d46308afc126622a189c, type: 3}
+      propertyPath: autoConnect
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 495038765954590892, guid: b1c317f1d143d46308afc126622a189c, type: 3}
       propertyPath: Production_url

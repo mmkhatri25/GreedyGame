@@ -12,10 +12,98 @@ using KhushbuPlugin;
 using Shared;
 using Newtonsoft.Json;
 
+using UnityEngine.Networking;
+
 namespace Titli.Gameplay
 {
     public class Titli_RoundWinningHandler : MonoBehaviour
     {
+
+        [Header("Top 3 Winner Section")]
+        [SerializeField] Image Winner1Dp; [SerializeField] Image Winner2Dp; [SerializeField] Image Winner3Dp;
+        [SerializeField] Text Winner1Name, Winner2Name, Winner3Name;
+        [SerializeField] Text Winner1WinCoins, Winner2WinCoins, Winner3WinCoins; 
+        
+        //Set top 3 Winners Data 
+        void SetWinnersData(List<string> names, List<string> dpUrl, List<int> winAmount)
+        {
+            for (int i = 0; i < names.Count; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                    Winner1Name.text = names[i];
+                    Winner1WinCoins.text = winAmount[i].ToString();
+                    StartCoroutine ( SetImageFromURL(dpUrl[i], Winner1Dp));
+                    break;
+                    case 1:
+                    Winner2Name.text = names[i];
+                    Winner2WinCoins.text = winAmount[i].ToString();
+                    StartCoroutine (SetImageFromURL(dpUrl[i], Winner2Dp));
+                    break;
+                    case 2:
+                    Winner3Name.text = names[i];
+                    Winner3WinCoins.text = winAmount[i].ToString();
+                    StartCoroutine (SetImageFromURL(dpUrl[i], Winner3Dp));
+                    break;
+                }
+                
+            }
+        }
+
+
+       //download images
+            public static IEnumerator SetImageFromURL(string pictureURL,Image imageView){
+            if (pictureURL.Length > 0) {
+                WWW www = new WWW(pictureURL);  
+
+                yield return www;
+                Texture2D ui_texture = www.texture;
+                if (ui_texture != null) {
+                    Sprite sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
+                    if (sprite != null) {
+                        Debug.Log("ProfilePicUrlSet");
+                        imageView.overrideSprite = sprite;
+                    }
+                }
+            }
+        }
+
+       
+    //   public static async Task<Texture2D> GetRemoteTexture ( string url, Image raw , Sprite sprite1 )
+    //   { 
+    //         using( UnityWebRequest www = UnityWebRequestTexture.GetTexture(url) )
+    //         {
+    //    // begin request:
+    //    var asyncOp = www.SendWebRequest();
+
+    //    // await until it's done: 
+    //    while( asyncOp.isDone==false )
+    //        await Task.Delay( 1000/30 );//30 hertz
+        
+    //    // read results:
+    //   // if( www.isNetworkError || www.isHttpError )
+    //     if( www.result!=UnityWebRequest.Result.Success )// for Unity >= 2020.1
+    //    {
+    //        // log error:
+    //        #if DEBUG
+    //        Debug.Log( $"{www.error}, URL:{www.url}" );
+    //        #endif
+     
+    //        return null;
+    //    }
+    //    else
+    //    {
+    //                Texture2D tex = DownloadHandlerTexture.GetContent(www);
+    //     sprite1 = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(tex.width / 2, tex.height / 2));
+    //        //raw.sprite = tex;
+    //        return DownloadHandlerTexture.GetContent(www);
+    //    }
+    //}
+//}
+
+
+
         public static Titli_RoundWinningHandler Instance;
         [SerializeField] List<GameObject> WinningRing;
         public Sprite[] Imgs;
@@ -36,9 +124,10 @@ namespace Titli.Gameplay
         {
             Titli_Timer.Instance.onTimeUp = () => isTimeUp = true;
             Titli_Timer.Instance.onCountDownStart = () => isTimeUp = false;
-            
+
             //leftDice.SetActive(false);
-            //rightDice.SetActive(false);       
+            //rightDice.SetActive(false);   
+            
         }
 
         public IEnumerator SetWinNumbers(object o)
@@ -322,11 +411,27 @@ namespace Titli.Gameplay
 
                         }
             }
+            //List<string> abc = new List<string> { "mann", "kappor", "raj"};
+            //List<int> wina = new List<int> {123,33434,56656};
+            //List<string> dp = new List<string> { "https://www.gstatic.com/webp/gallery3/1.sm.png", "https://www.gstatic.com/webp/gallery3/1.sm.png", "https://fastly.picsum.photos/id/428/200/300.jpg?hmac=yZnpqAvuXjLW6NjhE0OFa2GwK6XcNLPBIrI3yr4yFsk"};
 
+            winnerNames.Clear();
+            DpUrl.Clear();
+            Winamount.Clear();
+            for (int i = 0; i < 3; i++)
+            {
+                winnerNames.Add(player.userIds[i].user.name);
+                DpUrl.Add(player.userIds[i].user.profile_pic);
+                Winamount.Add(player.userIds[i].win);
+            }
+
+            SetWinnersData(winnerNames, DpUrl, Winamount);
 
         }
 
-
+        public List<string> winnerNames;
+        public List<string> DpUrl;
+        public List<int> Winamount;
         void mySpinComplete(){
             // StartCoroutine( ShowWinningRing(WinningRing[cardNo] ) );
         }
@@ -575,6 +680,7 @@ namespace Titli.Gameplay
             public List<int> previousWin_single;
             public int winPoint;
             public Data data;
+       
     }
 
         [Serializable]
@@ -584,5 +690,19 @@ namespace Titli.Gameplay
             public int bat;
             public int win;
             public float balance;
+        public User user;
     }
+    
+
+[Serializable]
+    public class User
+    {
+        public string name;
+        public double uId;
+        public object id;
+        public string profile_pic;
+    }
+
+  
+
 }

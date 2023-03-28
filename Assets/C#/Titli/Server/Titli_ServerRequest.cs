@@ -23,6 +23,7 @@ namespace Titli.ServerStuff
             Player player = new Player()
             {
                 playerId = PlayerPrefs.GetString("userId"),//"nauyaniika@nmsgames.com",  
+                userId = PlayerPrefs.GetString("userId"),
                 balance = "1000",
                 gameId = "4"
             };

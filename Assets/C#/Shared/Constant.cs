@@ -40,6 +40,7 @@ namespace Shared
         public string balance;
         public string gameId;
         public string userId;
+        
     }
 
 }

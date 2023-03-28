@@ -15,6 +15,7 @@ public class SplashScreenScript : MonoBehaviour
     public bool isUAT;
     
     public  string url, uatUrl, productionUrl;
+    public string userIdVar;
 
     public class BalanceREsponse
     {
@@ -39,14 +40,14 @@ public class SplashScreenScript : MonoBehaviour
         else
             url = productionUrl;
             
-         #if (UNITY_EDITOR)
-             StartCoroutine(GetDataApi(url, "64103b9f66cf6a3ab3e722f8"));
-               PlayerPrefs.SetString("userId", "64103b9f66cf6a3ab3e722f8");
+         //#if (UNITY_EDITOR)
+             StartCoroutine(GetDataApi(url, userIdVar));
+               PlayerPrefs.SetString("userId", userIdVar);
         // 63b6bfa214cd1bb4e4a29f87
-        #else
-            getIntentData ();
+        //#else
+            //getIntentData ();
 
-       #endif
+       //#endif
 
     }
 
@@ -113,7 +114,7 @@ public class SplashScreenScript : MonoBehaviour
         // yield return new WaitForSeconds(2f);
         yield return new WaitWhile(() => PlayerPrefs.GetString("userId") == string.Empty);
 
-        StartCoroutine(GetDataApi(url, PlayerPrefs.GetString("userId"))); 
+        StartCoroutine(GetDataApi(url+"/auth/login", PlayerPrefs.GetString("userId"))); 
         //StartCoroutine(GetDataApi("https://gapi.yaravoice.com:4002/auth/login", PlayerPrefs.GetString("userId"))); //production
         
         
