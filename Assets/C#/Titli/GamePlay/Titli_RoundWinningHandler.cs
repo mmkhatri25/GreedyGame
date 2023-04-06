@@ -408,8 +408,14 @@ namespace Titli.Gameplay
             winnerNames.Clear();
             DpUrl.Clear();
             Winamount.Clear();
+            foreach (var item in TopWinner3)
+            {
+                item.gameObject.SetActive(false);
+            }
+            noWinText.SetActive(true);
             for (int i = 0; i < player.userIds.Count; i++)
             {
+            noWinText.SetActive(false);
                 TopWinner3[i].SetActive(true);
                 winnerNames.Add(player.userIds[i].user.name);
                 DpUrl.Add(player.userIds[i].user.profile_pic);
@@ -419,6 +425,7 @@ namespace Titli.Gameplay
             SetWinnersData(winnerNames, DpUrl, Winamount);
 
         }
+        public GameObject noWinText;
         public List<GameObject> TopWinner3;
         public List<string> winnerNames;
         public List<string> DpUrl;
@@ -488,7 +495,10 @@ namespace Titli.Gameplay
             }
             Win_Panel.SetActive(false);
             total_bet = 0;
-            Titli_CardController.Instance._cardsImage[win_no].transform.parent.GetChild(6).gameObject.SetActive(false);
+            print("6 number card name - "+  Titli_CardController.Instance._cardsImage[win_no].transform.parent.GetChild(6).gameObject.name);
+            Titli_CardController.Instance.owlimages[win_no].gameObject.SetActive(false);
+            //Titli_CardController.Instance._cardsImage[win_no].transform.parent.GetChild(6).gameObject.SetActive(false);
+            
         }
     }
 

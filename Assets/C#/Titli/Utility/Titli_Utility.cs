@@ -80,6 +80,12 @@ namespace Titli.Utility
         internal static string OnPlayerWin = "OnPlayerWin";
         internal static string onleaveRoom = "onleaveRoom";
         internal static string OnHistoryRecord = "OnHistoryRecord";
+        internal static string userDailyWin = "userDailyWin";
+        internal static string userWinAmount = "userWinAmount";// listner
+        internal static string topWinner = "topWinner";// top winner on home page
+        internal static string winnerList = "winnerList";// winner list daily weekly
+       
+        
     }
     public enum Spots
     {
@@ -90,7 +96,9 @@ namespace Titli.Utility
         roll = 4,
         hotdog = 5,
         pizza = 6,
-        chicken = 7
+        chicken = 7,
+        veg = 8,
+        nonveg =9
         
     }
 }

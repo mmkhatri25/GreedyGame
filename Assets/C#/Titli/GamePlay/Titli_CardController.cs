@@ -15,6 +15,7 @@ namespace Titli.Gameplay
     {
         public static Titli_CardController Instance;
         public List<Image> _cardsImage;
+        public List<Image> owlimages;
         public Titli_BetManager betManager;
         // public Transform ChipParent;
         // float chipMovetime = .5f;
@@ -68,10 +69,15 @@ namespace Titli.Gameplay
             while ( round <= _cardsImage.Count + winno)
             {    for (int i = 0; i < _cardsImage.Count; i++)
                 {
-                    _cardsImage[i].transform.parent.GetChild(6).gameObject.SetActive(true);
+                    owlimages[i].gameObject.SetActive(true);
+                    //_cardsImage[i].transform.parent.GetChild(6).gameObject.SetActive(true);
+                     print("another 6 number card name - "+ owlimages[i].gameObject.name);
+                    
                     yield return new WaitForSeconds(0.25f);
                     if (round == _cardsImage.Count + winno) yield break;
-                    _cardsImage[i].transform.parent.GetChild(6).gameObject.SetActive(false);
+                    //_cardsImage[i].transform.parent.GetChild(6).gameObject.SetActive(false);
+                    owlimages[i].gameObject.SetActive(false);
+                    
                     round ++;
                 }
             }
