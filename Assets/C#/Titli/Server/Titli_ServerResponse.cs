@@ -4,6 +4,8 @@ using Titli.Utility;
 using Titli.UI;
 using Titli.Gameplay;
 using UnityEngine.SceneManagement;
+using System;
+using LunarConsoleEditorInternal;
 
 namespace Titli.ServerStuff
 {
@@ -25,17 +27,20 @@ namespace Titli.ServerStuff
             // socket.On("disconnected", OnDisconnected);
             
             serverRequest.JoinGame();
+            
             addSocketListner();
             
         }
         public void addSocketListner()
         {
+            print("here addSocketListner");
             socket.On(Events.onleaveRoom, OnDisconnected);
             // socket.On(Events.OnChipMove, OnChipMove);
             // socket.On(Events.OnGameStart, OnGameStart);
             // socket.On(Events.OnAddNewPlayer, OnAddNewPlayer);
             // socket.On(Events.OnPlayerExit, OnPlayerExit);
             socket.On(Events.OnTimerStart, OnTimerStart);
+            socket.On(Events.userDailyWin, OnTimerStart);
             // socket.On(Events.OnWait, OnWait);
             socket.On(Events.OnTimeUp, OnTimerUp);
             socket.On(Events.OnCurrentTimer, OnCurrentTimer);
@@ -43,7 +48,10 @@ namespace Titli.ServerStuff
             // socket.On(Events.OnBotsData, OnBotsData);
             // socket.On(Events.OnPlayerWin, OnPlayerWin);
             socket.On(Events.OnHistoryRecord, OnHistoryRecord);
-            socket.On(Events.OnBetsPlaced, OnBetsPlaced);
+            socket.On(Events.userWinAmount, OnuserWinAmount);
+            socket.On(Events.topWinner, OntopWinner);
+            socket.On(Events.winnerList, OnwinnerList);
+            
             Debug.Log("Listner On");
         }
         void OnConnected(SocketIOEvent e)
@@ -87,6 +95,9 @@ namespace Titli.ServerStuff
             socket.Off(Events.OnWinNo, OnWinNo);
             socket.Off(Events.OnHistoryRecord, OnHistoryRecord);
             socket.Off(Events.OnBetsPlaced, OnBetsPlaced);
+               socket.Off(Events.userWinAmount, OnuserWinAmount);
+            socket.Off(Events.topWinner, OntopWinner);
+            socket.Off(Events.winnerList, OnwinnerList);
          //   Debug.Log("Listner Off");
         }
 
@@ -134,6 +145,33 @@ namespace Titli.ServerStuff
         //     Debug.Log("OnPlayerExit " + e.data);
         //     // WOF_ChipController.Instance.OnOtherPlayerMove((object)e.data);
         // }
+        
+        
+        void OnuserWinAmount(SocketIOEvent e)
+        {
+            print("OnuserWinAmount - " + e.data);
+            RootWin winData = JsonUtility.FromJson<RootWin>(e.data.ToString());
+           //  RootWin winData = Utility.Utility.GetObjectOfType<RootWin>(e);
+            print("OnuserWinAmount - " + winData.amount);
+             
+            Titli_RoundWinningHandler.Instance.TodayWinText.text = winData.amount+"";
+        }
+ [Serializable]
+        public class RootWin
+    {
+            public int amount;
+    }
+        void OntopWinner(SocketIOEvent e)
+        {
+            print("OntopWinner - " + e.data);
+            setTopWinnerBottom.inst.SetwinnerData(e);
+
+        }
+        void OnwinnerList(SocketIOEvent e)
+        {
+            print("OnwinnerList - " + e.data);
+
+        }
         void OnTimerStart(SocketIOEvent e)
         {
             Titli_Timer.Instance.OnTimerStart(30);
@@ -155,7 +193,7 @@ namespace Titli.ServerStuff
         // }
         void OnCurrentTimer(SocketIOEvent e)
         {
-           // Debug.Log("start CurrentTimer : " + e.data);
+           Debug.Log("OnCurrentTimer : " + e.data);
             
             Titli_Timer.Instance.OnCurrentTime((object)e.data);
             StartCoroutine(Titli_RoundWinningHandler.Instance.SetWinNumbers(e.data));

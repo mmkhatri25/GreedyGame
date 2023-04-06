@@ -41,13 +41,10 @@ namespace SocketIO
 {
 	public class SocketIOComponent : MonoBehaviour
 	{
-
-      
-      
-		#region Public Properties
+        #region Public Properties
 		AsyncOperation MainScene;
-      public string url = "ws://dragonan-7up.herokuapp.com/socket.io/?EIO=4&transport=websocket";
-      public string UAT_url = "ws://dragonan-7up.herokuapp.com/socket.io/?EIO=4&transport=websocket";
+        public string url = "ws://dragonan-7up.herokuapp.com/socket.io/?EIO=4&transport=websocket";
+        public string UAT_url = "ws://dragonan-7up.herokuapp.com/socket.io/?EIO=4&transport=websocket";
 		public string Production_url = "ws://dragonan-7up.herokuapp.com/socket.io/?EIO=4&transport=websocket";
         public bool isUAT;
 		public bool autoConnect = true;
@@ -88,24 +85,93 @@ namespace SocketIO
 		private object ackQueueLock;
 		private Queue<Packet> ackQueue;
 
-		#endregion
+        #endregion
 
-		#if SOCKET_IO_DEBUG
+#if SOCKET_IO_DEBUG
 		public Action<string> debugMethod;
-		#endif
+#endif
 
-		#region Unity interface
+        #region Unity interface
+
+
+
+
+        private bool getIntentData()
+        {
+#if (!UNITY_EDITOR && UNITY_ANDROID)
+        return CreatePushClass (new AndroidJavaClass ("com.unity3d.player.UnityPlayer"));
+#endif
+            return false;
+        }
+
+        public bool CreatePushClass(AndroidJavaClass UnityPlayer)
+        {
+#if UNITY_ANDROID
+            AndroidJavaObject currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            AndroidJavaObject intent = currentActivity.Call<AndroidJavaObject>("getIntent");
+            AndroidJavaObject extras = GetExtras(intent);
+
+            if (extras != null)
+            {
+                string ex = GetProperty(extras, "userId");
+                url = GetProperty(extras, "socketUrl");
+                //PlayerPrefs.SetString(GetProperty(extras, "socketUrl"),"socketUrl");
+                PlayerPrefs.SetString("userId", ex);
+                return true;
+            }
+#endif
+            return false;
+        }
+
+        private AndroidJavaObject GetExtras(AndroidJavaObject intent)
+        {
+            AndroidJavaObject extras = null;
+
+            try
+            {
+                extras = intent.Call<AndroidJavaObject>("getExtras");
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+            }
+
+            return extras;
+        }
+
+        private string GetProperty(AndroidJavaObject extras, string name)
+        {
+            string s = string.Empty;
+
+            try
+            {
+                s = extras.Call<string>("getString", name);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+            }
+
+            return s;
+        }
 
 		public void Awake()
 		{
             DontDestroyOnLoad(this.gameObject);
-
+            
+            #if (UNITY_EDITOR)
             if (isUAT)
                 url = UAT_url;
             else
                 url = Production_url;
+            #else
+            getIntentData ();
+
+            #endif
+
+           
                 
-          encoder = new Encoder();
+            encoder = new Encoder();
 			decoder = new Decoder();
 			parser = new Parser();
 			handlers = new Dictionary<string, List<Action<SocketIOEvent>>>();
@@ -134,11 +200,11 @@ namespace SocketIO
 			#endif
 		}
 
-		public static SocketIOComponent instance;
+
 		public void Start()
 		{
 			if (autoConnect) { Connect(); }
-			instance = this;
+
             // SceneManager.LoadScene("MainScene");
             //MainScene = SceneManager.LoadSceneAsync("MainScene");
             //MainScene.allowSceneActivation = true;
@@ -277,6 +343,11 @@ namespace SocketIO
 			EmitMessage(++packetId, string.Format("[\"{0}\",{1}]", ev, data));
 			ackList.Add(new Ack(packetId, action));
 		}
+            public void Emit(string ev, string data, Action<JSONObject> action)
+        {
+            EmitMessage(++packetId, string.Format("[\"{0}\",{1}]", ev, data));
+            ackList.Add(new Ack(packetId, action));
+        }
 
 		#endregion
 

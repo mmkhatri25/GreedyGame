@@ -24,10 +24,17 @@ namespace Titli.Gameplay
         public Action startCountDown;
         public static gameState gamestate;
        public TMP_Text countdownTxt, waittext;
+        public Text todaywin;
         // [SerializeField] TMP_Text messageTxt;
         private void Awake()
         {
             Instance = this;
+            
+            //Titli_ServerRequest.instance.socket.Emit(Events.winnerList);
+        }
+        void onWinnerListREceived()
+        {
+
         }
         void Start()
         {
@@ -92,8 +99,10 @@ waitForBetScreen.SetActive(false);
             //    Debug.Log("here timer is lesssssss - "+ init.gametimer);
                 StartCoroutine(currentTimer(init.gametimer));
             }
+                todaywin.text = init.currentWin.ToString();
 
             }
+            
             
         }
 
@@ -347,5 +356,7 @@ waitForBetScreen.SetActive(false);
         public List<BotsBetsDetail> botsBetsDetails;
         public string balance;
         public int gametimer;
+        public int userDailyWin;
+        public int currentWin;
     }
 }
