@@ -71,7 +71,7 @@ namespace Titli.Gameplay
                 {
                     owlimages[i].gameObject.SetActive(true);
                     //_cardsImage[i].transform.parent.GetChild(6).gameObject.SetActive(true);
-                     print("another 6 number card name - "+ owlimages[i].gameObject.name);
+                     //print("another 6 number card name - "+ owlimages[i].gameObject.name);
                     
                     yield return new WaitForSeconds(0.25f);
                     if (round == _cardsImage.Count + winno) yield break;

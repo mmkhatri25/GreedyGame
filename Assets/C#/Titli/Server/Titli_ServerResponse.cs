@@ -33,7 +33,7 @@ namespace Titli.ServerStuff
         }
         public void addSocketListner()
         {
-            print("here addSocketListner");
+            //print("here addSocketListner");
             socket.On(Events.onleaveRoom, OnDisconnected);
             // socket.On(Events.OnChipMove, OnChipMove);
             // socket.On(Events.OnGameStart, OnGameStart);
@@ -52,7 +52,7 @@ namespace Titli.ServerStuff
             socket.On(Events.topWinner, OntopWinner);
             socket.On(Events.winnerList, OnwinnerList);
             
-            Debug.Log("Listner On");
+            //Debug.Log("Listner On");
         }
         void OnConnected(SocketIOEvent e)
         {

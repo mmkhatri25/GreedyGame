@@ -19,7 +19,7 @@ namespace Titli.ServerStuff
         public void JoinGame()
         {
             //Debug.Log($"player { PlayerPrefs.GetString("email")} Join game");
-            Debug.Log("user id at join game is - " + PlayerPrefs.GetString("userId"));
+            //Debug.Log("user id at join game is - " + PlayerPrefs.GetString("userId"));
             Player player = new Player()
             {
                 playerId = PlayerPrefs.GetString("userId"),//"nauyaniika@nmsgames.com",  

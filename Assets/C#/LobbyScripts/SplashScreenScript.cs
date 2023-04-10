@@ -146,12 +146,12 @@ namespace SocketIO
 
                 if (www.result != UnityWebRequest.Result.Success)
                 {
-                    Debug.Log(www.error);
+                    //Debug.Log(www.error);
                 }
                 else
                 {
                     BalanceREsponse result = Newtonsoft.Json.JsonConvert.DeserializeObject<BalanceREsponse>(www.downloadHandler.text);
-                    Debug.Log("result   " + result.status);
+                    //Debug.Log("result   " + result.status);
                     if (result.status == 200)
                     {
                         Debug.Log("Data Recieved successfully.... " + www.downloadHandler.text);

@@ -357,6 +357,6 @@ waitForBetScreen.SetActive(false);
         public string balance;
         public int gametimer;
         public int userDailyWin;
-        public int currentWin;
+        public double currentWin;
     }
 }

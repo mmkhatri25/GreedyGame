@@ -336,7 +336,7 @@ MonoBehaviour:
   url: 
   uatUrl: https://gapi-uat.yaravoice.com:4002
   productionUrl: https://gapi.yaravoice.com:4002
-  userIdVar: 640e0ff266cf6a3ab3e722a3
+  userIdVar: 6426715def7448df0a1cae7a
 --- !u!114 &1244813201
 MonoBehaviour:
   m_ObjectHideFlags: 0

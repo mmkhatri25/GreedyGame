@@ -354,7 +354,7 @@ namespace Titli.Gameplay
             {
 
                 win_no = player.winNo;
-                print("hereee... win -  "+ player.winNo);
+                //print("hereee... win -  "+ player.winNo);
                         //balance_amt = player.Balance;
                 win_amount = 0;
                 switch (win_no)
@@ -495,7 +495,7 @@ namespace Titli.Gameplay
             }
             Win_Panel.SetActive(false);
             total_bet = 0;
-            print("6 number card name - "+  Titli_CardController.Instance._cardsImage[win_no].transform.parent.GetChild(6).gameObject.name);
+            //print("6 number card name - "+  Titli_CardController.Instance._cardsImage[win_no].transform.parent.GetChild(6).gameObject.name);
             Titli_CardController.Instance.owlimages[win_no].gameObject.SetActive(false);
             //Titli_CardController.Instance._cardsImage[win_no].transform.parent.GetChild(6).gameObject.SetActive(false);
             
