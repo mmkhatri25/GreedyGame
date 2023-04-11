@@ -25,7 +25,7 @@ namespace Titli.Gameplay
         [SerializeField] Text Winner1WinCoins, Winner2WinCoins, Winner3WinCoins; 
         
         //Set top 3 Winners Data 
-        void SetWinnersData(List<string> names, List<string> dpUrl, List<int> winAmount)
+        void SetWinnersData(List<string> names, List<string> dpUrl, List<double> winAmount)
         {
             for (int i = 0; i < names.Count; i++)
             {
@@ -111,7 +111,7 @@ namespace Titli.Gameplay
         public List<int> PreviousWinValue;
         bool isTimeUp;
         int win_no;
-        public float balance_amt, win_amount, total_bet;
+        public double balance_amt, win_amount, total_bet;
         public GameObject Win_Panel, win_amount_desc, No_Win_Description;
         public Text Win_amount_text, Total_Bet_text, TodayWinText;
         public Image Win_Image,Win_Image_other;
@@ -135,15 +135,15 @@ namespace Titli.Gameplay
         public IEnumerator SetWinNumbers(object o)
         {
             yield return new WaitForSeconds(1f);
-            
+
             InitialData winData = Utility.Utility.GetObjectOfType<InitialData>(o);
-            print("currentWin - "+ winData.currentWin);
-            
-            TodayWinText.text = winData.currentWin+"";
+            print("currentWin - " + winData.currentWin);
+
+            TodayWinText.text = winData.currentWin + "";
 
             if (winData.previousWins != null)
             {
-                while (winData.previousWins.Count > 9 )
+                while (winData.previousWins.Count > 9)
                 {
                     winData.previousWins.RemoveAt(0);
                 }
@@ -151,32 +151,39 @@ namespace Titli.Gameplay
             //TodayWinText.text = winData.userDailyWin.ToString();
             PreviousWinValue = winData.previousWins;
             PreviousWinValue.Reverse();
-           // Debug.Log("Previous win"+ PreviousWinValue.Count);
+            // Debug.Log("Previous win"+ PreviousWinValue.Count);
 
             // yield return new WaitUntil( () => Imgs.Length == 8 );
-
-            for (int i = 0; i < previousWins.Length; i++)
+            //PreviousWinValue.RemoveAt(0);
+            //PreviousWinValue.Add(9);
+            for (int i = 0; i < PreviousWinValue.Count; i++)
             {
-                if ( PreviousWinValue[i] > -1 && PreviousWinValue[i] > 7 ) continue;
                 previousWins[i].sprite = Imgs[PreviousWinValue[i]];
                 previousWins[i].gameObject.SetActive(true);
-                // int num = winData.previousWins[i];
-                // if (num == 0)
-                // {
-                //     previousWins[i].sprite = Imgs[0];//dragon
-                // }
-                // else if (num == 1)
-                // {
-                //     previousWins[i].sprite = Imgs[1];//tie
-                // }
-                // else
-                // {
-                //     previousWins[i].sprite = Imgs[2];//tiger
-                // }
-                // previousWins[i].gameObject.SetActive(true);
-                //previousWins[i].gameObject.transform.GetChild(0).GetComponent<Text>().text = totalDiceNo.ToString();
-
             }
+
+            //for (int i = 0; i < previousWins.Length; i++)
+            //{
+            //   // if ( PreviousWinValue[i] > -1 && PreviousWinValue[i] > 9 ) continue;
+            //    previousWins[i].sprite = Imgs[PreviousWinValue[i]];
+            //    previousWins[i].gameObject.SetActive(true);
+            //    // int num = winData.previousWins[i];
+            //    // if (num == 0)
+            //    // {
+            //    //     previousWins[i].sprite = Imgs[0];//dragon
+            //    // }
+            //    // else if (num == 1)
+            //    // {
+            //    //     previousWins[i].sprite = Imgs[1];//tie
+            //    // }
+            //    // else
+            //    // {
+            //    //     previousWins[i].sprite = Imgs[2];//tiger
+            //    // }
+            //    // previousWins[i].gameObject.SetActive(true);
+            //    //previousWins[i].gameObject.transform.GetChild(0).GetComponent<Text>().text = totalDiceNo.ToString();
+
+            //}
         }
         IEnumerator showtoastforA(DiceWinNos winData)
         {
@@ -429,7 +436,7 @@ namespace Titli.Gameplay
         public List<GameObject> TopWinner3;
         public List<string> winnerNames;
         public List<string> DpUrl;
-        public List<int> Winamount;
+        public List<double> Winamount;
         void mySpinComplete(){
             // StartCoroutine( ShowWinningRing(WinningRing[cardNo] ) );
         }
@@ -487,9 +494,16 @@ namespace Titli.Gameplay
             PreviousWinValue.Add(win_no);
             PreviousWinValue.Reverse();
             
-            for(int i = 0;i < PreviousWinValue.Count; i++)
+            //for(int i = 0;i < PreviousWinValue.Count; i++)
+            //{
+            //    if ( PreviousWinValue[i] > -1 && PreviousWinValue[i] > 7 ) continue;
+            //    previousWins[i].sprite = Imgs[PreviousWinValue[i]];
+            //    previousWins[i].gameObject.SetActive(true);
+            //}
+            //  PreviousWinValue.RemoveAt(0);
+            //PreviousWinValue.Add(9);
+            for (int i = 0; i < PreviousWinValue.Count; i++)
             {
-                if ( PreviousWinValue[i] > -1 && PreviousWinValue[i] > 7 ) continue;
                 previousWins[i].sprite = Imgs[PreviousWinValue[i]];
                 previousWins[i].gameObject.SetActive(true);
             }
@@ -581,7 +595,7 @@ namespace Titli.Gameplay
     {
             public string userId;
             public int bat;
-            public int win;
+            public double win;
             public float balance;
         public User user;
     }

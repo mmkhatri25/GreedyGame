@@ -56,55 +56,49 @@ namespace Titli.Gameplay
         public void OnCurrentTime(object data = null)
         {
             // is_a_FirstRound = true;
-            if (is_a_FirstRound)
+            //if (is_a_FirstRound)
+            //{
+            //    waitForBetScreen.SetActive(true);
+            //}
+            //else
             {
-            waitForBetScreen.SetActive(true);
-
-            }
-            else
-            {
-waitForBetScreen.SetActive(false);
-            onTimeUp();
-            // Titli_CardController.Instance._winNo = true;
-            // Titli_UiHandler.Instance.ShowMessage("please wait for next round...");
+            waitForBetScreen.SetActive(false);
+           // onTimeUp();
+           
             InitialData init = new InitialData();
             try
             {
                 init = Utility.Utility.GetObjectOfType<InitialData>(data.ToString());
-                // Titli_UiHandler.Instance.UpDateBalance(float.Parse(cr.balance));
+
             }
             catch (Exception e)
             {
                 Debug.Log(e.Message);
             }
-            if (init.gametimer > 5)
-            {
-                Titli_UiHandler.Instance.lessthanFiveSec = false;
-                //Debug.Log("Game Timer");
-               // Debug.Log("here timer is moreeee 555 - "+ init.gametimer);
-                
+                //if (init.gametimer > 5)
+                //{
+                // Titli_UiHandler.Instance.lessthanFiveSec = false;
+                print("Here getting gametimer... - "+ init.gametimer + " round first "+ is_a_FirstRound);
+                if (init.gametimer >0)
+                {
+                   is_a_FirstRound = false;
+                print("Here setting true"+ init.gametimer + " round first "+ is_a_FirstRound);
+
+                }
                 OnTimerStart(init.gametimer);
                 waitForBetScreen.SetActive(false);
                 
-            }
-            else if (init.gametimer < 5)
-            {
-                //if(is_a_FirstRound)
-                //waitForBetScreen.SetActive(true);
-                //else
-                //waitForBetScreen.SetActive(false);
-                
-                Titli_UiHandler.Instance.lessthanFiveSec = true;
-                onTimeUp();
-            //    Debug.Log("here timer is lesssssss - "+ init.gametimer);
-                StartCoroutine(currentTimer(init.gametimer));
-            }
+            //}
+            //else if (init.gametimer < 5)
+            //{
+            //    Titli_UiHandler.Instance.lessthanFiveSec = true;
+            //    onTimeUp();
+            //    StartCoroutine(currentTimer(init.gametimer));
+            //}
                 todaywin.text = init.currentWin.ToString();
 
-            }
-            
-            
-        }
+         }
+       }
 
         IEnumerator currentTimer(int currentGametimer)
         {
@@ -147,7 +141,7 @@ waitForBetScreen.SetActive(false);
                 if (i == 1)
                 {
                     startCountDown?.Invoke();
-                    countdownTxt.text = "wait..";
+                    //countdownTxt.text = "wait..";
                     print("here countdown become 0 ...");
                 
 
@@ -160,8 +154,8 @@ waitForBetScreen.SetActive(false);
 
                 if (i <= 0)
                 {
-                    waittext.gameObject.SetActive(true);
-                    countdownTxt.gameObject.SetActive(false);
+                    //waittext.gameObject.SetActive(true);
+                    //countdownTxt.gameObject.SetActive(false);
                 }
                 // Debug.Log("Timer:" +i);
                 if (i > 5)
@@ -211,6 +205,7 @@ waitForBetScreen.SetActive(false);
                 
                 yield return new WaitForSecondsRealtime(1f);
             }
+            countdownTxt.text = "wait..";
 
         }
 

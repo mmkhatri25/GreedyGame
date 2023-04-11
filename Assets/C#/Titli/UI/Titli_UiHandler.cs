@@ -216,6 +216,8 @@ namespace Titli.UI
         int carrotBet, papyabet, cabagebet, tomatobet, rollbet, hotdogbet, pizzbet, checkenbet;
         public void AddBets(Spots spot)
         {
+            print("add bests section... - "+ Titli_Timer.Instance.is_a_FirstRound);
+        
             if (Titli_Timer.Instance.is_a_FirstRound)
                 return;
             //carrotBet += CarrotBets;
@@ -413,7 +415,7 @@ namespace Titli.UI
             public float currentBalance;
         }
 
-        public IEnumerator WinAmount(float balance_win, float win_amount)
+        public IEnumerator WinAmount(double balance_win, double win_amount)
         {
             if (win_amount <= 0) yield break;
             Debug.Log("Balance before Win Balance"+balance_win);
