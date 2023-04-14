@@ -53,7 +53,7 @@ namespace Titli.Gameplay
 
 
        //download images
-            public static IEnumerator SetImageFromURL(string pictureURL,Image imageView){
+            public  IEnumerator SetImageFromURL(string pictureURL,Image imageView){
             if (pictureURL.Length > 0) {
                 WWW www = new WWW(pictureURL);  
 
@@ -67,43 +67,47 @@ namespace Titli.Gameplay
                     }
                 }
             }
+            else
+            {
+                imageView.GetComponent<Image>().overrideSprite = DefaultSprite;  
+            }
         }
 
-       
-    //   public static async Task<Texture2D> GetRemoteTexture ( string url, Image raw , Sprite sprite1 )
-    //   { 
-    //         using( UnityWebRequest www = UnityWebRequestTexture.GetTexture(url) )
-    //         {
-    //    // begin request:
-    //    var asyncOp = www.SendWebRequest();
 
-    //    // await until it's done: 
-    //    while( asyncOp.isDone==false )
-    //        await Task.Delay( 1000/30 );//30 hertz
-        
-    //    // read results:
-    //   // if( www.isNetworkError || www.isHttpError )
-    //     if( www.result!=UnityWebRequest.Result.Success )// for Unity >= 2020.1
-    //    {
-    //        // log error:
-    //        #if DEBUG
-    //        Debug.Log( $"{www.error}, URL:{www.url}" );
-    //        #endif
-     
-    //        return null;
-    //    }
-    //    else
-    //    {
-    //                Texture2D tex = DownloadHandlerTexture.GetContent(www);
-    //     sprite1 = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(tex.width / 2, tex.height / 2));
-    //        //raw.sprite = tex;
-    //        return DownloadHandlerTexture.GetContent(www);
-    //    }
-    //}
-//}
+        //   public static async Task<Texture2D> GetRemoteTexture ( string url, Image raw , Sprite sprite1 )
+        //   { 
+        //         using( UnityWebRequest www = UnityWebRequestTexture.GetTexture(url) )
+        //         {
+        //    // begin request:
+        //    var asyncOp = www.SendWebRequest();
+
+        //    // await until it's done: 
+        //    while( asyncOp.isDone==false )
+        //        await Task.Delay( 1000/30 );//30 hertz
+
+        //    // read results:
+        //   // if( www.isNetworkError || www.isHttpError )
+        //     if( www.result!=UnityWebRequest.Result.Success )// for Unity >= 2020.1
+        //    {
+        //        // log error:
+        //        #if DEBUG
+        //        Debug.Log( $"{www.error}, URL:{www.url}" );
+        //        #endif
+
+        //        return null;
+        //    }
+        //    else
+        //    {
+        //                Texture2D tex = DownloadHandlerTexture.GetContent(www);
+        //     sprite1 = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(tex.width / 2, tex.height / 2));
+        //        //raw.sprite = tex;
+        //        return DownloadHandlerTexture.GetContent(www);
+        //    }
+        //}
+        //}
 
 
-
+        public  Sprite DefaultSprite;
         public static Titli_RoundWinningHandler Instance;
         [SerializeField] List<GameObject> WinningRing;
         public Sprite[] Imgs;
@@ -255,43 +259,43 @@ namespace Titli.Gameplay
                         switch (win_no)
                         {
                             case 0:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.carrot));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.carrot, player.previousWin_single));
                                 Debug.Log("  carrot - " + win_amount);
                                 break;
                             case 1:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.papaya));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.papaya, player.previousWin_single));
                                 Debug.Log("  papaya - " + win_amount);
                                 break;
                             case 2:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.Cabbage));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.Cabbage,  player.previousWin_single));
                                 Debug.Log("  Cabbage - " + win_amount);
                                 break;
                             case 3:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.tomato));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.tomato, player.previousWin_single));
                                 Debug.Log("  tomato - " + win_amount);
                                 break;
                             case 4:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.roll));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.roll, player.previousWin_single));
                                 Debug.Log("  roll - " + win_amount);
                                 break;
                             case 5:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.hotdog));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.hotdog, player.previousWin_single));
                                 Debug.Log("  hotdog - " + win_amount);
                                 break;
                             case 6:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.pizza));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.pizza, player.previousWin_single));
                                 Debug.Log("  pizza - " + win_amount);
                                 break;
                             case 7:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.chicken));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.chicken, player.previousWin_single));
                                 Debug.Log("  chicken - " + win_amount);
                                 break;
                            case 8:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.veg));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.veg, player.previousWin_single));
                         Debug.Log("  veg - " + win_amount);
                         break;
                     case 9:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.nonveg));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.nonveg, player.previousWin_single));
                         Debug.Log("  nonveg - " + win_amount);
                         break;
                             default:
@@ -311,43 +315,43 @@ namespace Titli.Gameplay
                         switch (win_no)
                         {
                             case 0:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.carrot));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.carrot, player.previousWin_single));
                                 Debug.Log("  carrot - " + win_amount);
                                 break;
                             case 1:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.papaya));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.papaya, player.previousWin_single));
                                 Debug.Log("  papaya - " + win_amount);
                                 break;
                             case 2:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.Cabbage));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.Cabbage, player.previousWin_single));
                                 Debug.Log("  Cabbage - " + win_amount);
                                 break;
                             case 3:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.tomato));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.tomato, player.previousWin_single));
                                 Debug.Log("  tomato - " + win_amount);
                                 break;
                             case 4:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.roll));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.roll, player.previousWin_single));
                                 Debug.Log("  roll - " + win_amount);
                                 break;
                             case 5:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.hotdog));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.hotdog, player.previousWin_single));
                                 Debug.Log("  hotdog - " + win_amount);
                                 break;
                             case 6:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.pizza));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.pizza, player.previousWin_single));
                                 Debug.Log("  pizza - " + win_amount);
                                 break;
                             case 7:
-                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.chicken));
+                                StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.chicken, player.previousWin_single));
                                 Debug.Log("  chicken - " + win_amount);
                                 break;
                               case 8:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.veg));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.veg, player.previousWin_single));
                         Debug.Log("  veg - " + win_amount);
                         break;
                     case 9:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.nonveg));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.nonveg, player.previousWin_single));
                         Debug.Log("  nonveg - " + win_amount);
                         break;
                             default:
@@ -367,43 +371,43 @@ namespace Titli.Gameplay
                 switch (win_no)
                 {
                     case 0:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.carrot));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.carrot, player.previousWin_single));
                         Debug.Log("  carrot - " + win_amount);
                         break;
                     case 1:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.papaya));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.papaya, player.previousWin_single));
                         Debug.Log("  papaya - " + win_amount);
                         break;
                     case 2:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.Cabbage));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.Cabbage, player.previousWin_single));
                         Debug.Log("  Cabbage - " + win_amount);
                         break;
                     case 3:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.tomato));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.tomato, player.previousWin_single));
                         Debug.Log("  tomato - " + win_amount);
                         break;
                     case 4:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.roll));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.roll, player.previousWin_single));
                         Debug.Log("  roll - " + win_amount);
                         break;
                     case 5:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.hotdog));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.hotdog, player.previousWin_single));
                         Debug.Log("  hotdog - " + win_amount);
                         break;
                     case 6:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.pizza));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.pizza, player.previousWin_single));
                         Debug.Log("  pizza - " + win_amount);
                         break;
                     case 7:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.chicken));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.chicken, player.previousWin_single));
                         Debug.Log("  chicken - " + win_amount);
                         break;
                     case 8:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.veg));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.veg, player.previousWin_single));
                         Debug.Log("  veg - " + win_amount);
                         break;
                     case 9:
-                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.nonveg));
+                        StartCoroutine(ShowWinningRing(WinningRing[win_no], Spots.nonveg, player.previousWin_single));
                         Debug.Log("  nonveg - " + win_amount);
                         break;
                    default:
@@ -411,7 +415,7 @@ namespace Titli.Gameplay
                         break;
                 }
             }
-
+          StartCoroutine (  mySpinComplete(player.previousWin_single));
             winnerNames.Clear();
             DpUrl.Clear();
             Winamount.Clear();
@@ -420,9 +424,17 @@ namespace Titli.Gameplay
                 item.gameObject.SetActive(false);
             }
             noWinText.SetActive(true);
-            for (int i = 0; i < player.userIds.Count; i++)
+            print("here use ids count - "+  player.userIds.Count);
+            int winnerscount = 0;
+
+            if (player.userIds.Count > 3)
+                winnerscount = 3;
+            else
+                winnerscount = player.userIds.Count;
+            for (int i = 0; i < winnerscount; i++)
             {
-            noWinText.SetActive(false);
+                
+                noWinText.SetActive(false);
                 TopWinner3[i].SetActive(true);
                 winnerNames.Add(player.userIds[i].user.name);
                 DpUrl.Add(player.userIds[i].user.profile_pic);
@@ -437,12 +449,50 @@ namespace Titli.Gameplay
         public List<string> winnerNames;
         public List<string> DpUrl;
         public List<double> Winamount;
-        void mySpinComplete(){
-            // StartCoroutine( ShowWinningRing(WinningRing[cardNo] ) );
+        IEnumerator mySpinComplete(List<int> previousWinsList){
+            yield return new WaitForSeconds(5f);
+            print("start previousWinsList - "+ previousWinsList.Count);
+
+            if (previousWinsList.Count > 0)
+            {
+            PreviousWinValue.Clear();
+            
+            PreviousWinValue = previousWinsList;
+            PreviousWinValue.Reverse();
+
+            print("inside ...previousWinsList - "+ previousWinsList.Count);
+
+            int precount;
+            if (previousWinsList.Count > 9)
+                precount = 9;
+            else
+                precount = previousWinsList.Count;
+
+            foreach (var item in previousWins)
+            {
+                item.gameObject.SetActive(false);
+            }
+
+            for (int i = 0; i < precount; i++)
+            {
+                previousWins[i].sprite = Imgs[PreviousWinValue[i]];
+                previousWins[i].gameObject.SetActive(true);
+            }
+              
+            }else
+            {
+            print("0 count previousWinsList - "+ previousWinsList.Count);
+
+            }
+
+
         }
         public Button vegPlate, nonVegPlate;
         
-        IEnumerator ShowWinningRing( GameObject ring , Spots winnerSpot )
+        
+        
+        
+        IEnumerator ShowWinningRing( GameObject ring , Spots winnerSpot, List<int> previousWinsList )
         {
                 print("ShowWinningRing - "+winnerSpot);
         
@@ -483,30 +533,48 @@ namespace Titli.Gameplay
              
             yield return new WaitForSeconds(2f);
             ring.SetActive(false);
+            
+            
         
 
             StartCoroutine(Titli.UI.Titli_UiHandler.Instance.WinAmount(balance_amt, win_amount));
-            PreviousWinValue.Reverse();
-            while (PreviousWinValue.Count >= previousWins.Length)
-            {
-                PreviousWinValue.RemoveAt(0);
-            }
-            PreviousWinValue.Add(win_no);
-            PreviousWinValue.Reverse();
-            
-            //for(int i = 0;i < PreviousWinValue.Count; i++)
+            //PreviousWinValue.Reverse();
+            //while (PreviousWinValue.Count >= previousWins.Length)
             //{
-            //    if ( PreviousWinValue[i] > -1 && PreviousWinValue[i] > 7 ) continue;
+            //    PreviousWinValue.RemoveAt(0);
+            //}
+            //PreviousWinValue.Add(win_no);
+            //PreviousWinValue.Reverse();
+      
+            //for (int i = 0; i < PreviousWinValue.Count; i++)
+            //{
             //    previousWins[i].sprite = Imgs[PreviousWinValue[i]];
             //    previousWins[i].gameObject.SetActive(true);
             //}
-            //  PreviousWinValue.RemoveAt(0);
-            //PreviousWinValue.Add(9);
-            for (int i = 0; i < PreviousWinValue.Count; i++)
-            {
-                previousWins[i].sprite = Imgs[PreviousWinValue[i]];
-                previousWins[i].gameObject.SetActive(true);
-            }
+
+         
+
+            //PreviousWinValue.Add(win_no);
+            //PreviousWinValue.Reverse();
+            //if (PreviousWinValue != null)
+            //{
+            //    while (PreviousWinValue.Count > 9)
+            //    {
+            //        PreviousWinValue.RemoveAt(0);
+            //    }
+            //}
+            //// Debug.Log("Previous win"+ PreviousWinValue.Count);
+
+            //// yield return new WaitUntil( () => Imgs.Length == 8 );
+            ////PreviousWinValue.RemoveAt(0);
+            ////PreviousWinValue.Add(9);
+            //for (int i = 0; i < PreviousWinValue.Count; i++)
+            //{
+            //    previousWins[i].sprite = Imgs[PreviousWinValue[i]];
+            //    previousWins[i].gameObject.SetActive(true);
+            //}
+
+
             Win_Panel.SetActive(false);
             total_bet = 0;
             //print("6 number card name - "+  Titli_CardController.Instance._cardsImage[win_no].transform.parent.GetChild(6).gameObject.name);

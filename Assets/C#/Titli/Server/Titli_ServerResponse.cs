@@ -159,7 +159,7 @@ namespace Titli.ServerStuff
  [Serializable]
         public class RootWin
     {
-            public int amount;
+            public double amount;
     }
         void OntopWinner(SocketIOEvent e)
         {
@@ -175,6 +175,7 @@ namespace Titli.ServerStuff
         void OnTimerStart(SocketIOEvent e)
         {
             Titli_Timer.Instance.OnTimerStart(30);
+            Titli_Timer.Instance.is_a_FirstRound = false;
             Debug.Log("here timer start - " + e.data);
             Titli_Timer.Instance.waittext.gameObject.SetActive(false);
             Titli_Timer.Instance.countdownTxt.gameObject.SetActive(true);
