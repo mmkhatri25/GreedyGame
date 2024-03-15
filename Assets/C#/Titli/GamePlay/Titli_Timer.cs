@@ -78,12 +78,12 @@ namespace Titli.Gameplay
                 //if (init.gametimer > 5)
                 //{
                 // Titli_UiHandler.Instance.lessthanFiveSec = false;
-                print("Here getting gametimer... - "+ init.gametimer + " round first "+ is_a_FirstRound);
+                //print("Here getting gametimer... - "+ init.gametimer + " round first "+ is_a_FirstRound);
                 // here is setting the stop bet....
                 if (init.gametimer >=2)
                 {
                    is_a_FirstRound = false;
-                print("Here setting true"+ init.gametimer + " round first "+ is_a_FirstRound);
+                //print("Here setting true"+ init.gametimer + " round first "+ is_a_FirstRound);
 
                 }
                 OnTimerStart(init.gametimer);
@@ -143,7 +143,7 @@ namespace Titli.Gameplay
                 {
                     startCountDown?.Invoke();
                     //countdownTxt.text = "wait..";
-                    print("here countdown become 0 ...");
+                    //print("here countdown become 0 ...");
                 
 
                 }
@@ -204,7 +204,7 @@ namespace Titli.Gameplay
             {
                 // messageTxt.text = "Time Up";
                 countdownTxt.text = "wait..";//i.ToString();
-                print("here counting ... " +countdownTxt.text );
+                //print("here counting ... " +countdownTxt.text );
                 
                 yield return new WaitForSecondsRealtime(1f);
             }

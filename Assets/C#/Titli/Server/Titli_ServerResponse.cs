@@ -163,20 +163,20 @@ namespace Titli.ServerStuff
     }
         void OntopWinner(SocketIOEvent e)
         {
-            print("OntopWinner - " + e.data);
+            //print("OntopWinner - " + e.data);
             setTopWinnerBottom.inst.SetwinnerData(e);
 
         }
         void OnwinnerList(SocketIOEvent e)
         {
-            print("OnwinnerList - " + e.data);
+            //print("OnwinnerList - " + e.data);
 
         }
         void OnTimerStart(SocketIOEvent e)
         {
             Titli_Timer.Instance.OnTimerStart(30);
             Titli_Timer.Instance.is_a_FirstRound = false;
-            Debug.Log("here timer start - " + e.data);
+            //Debug.Log("here timer start - " + e.data);
             Titli_Timer.Instance.waittext.gameObject.SetActive(false);
             Titli_Timer.Instance.countdownTxt.gameObject.SetActive(true);
             // Titli_UiHandler.Instance.HideMessage();

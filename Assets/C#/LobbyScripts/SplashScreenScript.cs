@@ -154,7 +154,7 @@ namespace SocketIO
                     //Debug.Log("result   " + result.status);
                     if (result.status == 200)
                     {
-                        Debug.Log("Data Recieved successfully.... " + www.downloadHandler.text);
+                        //Debug.Log("Data Recieved successfully.... " + www.downloadHandler.text);
                         PlayerPrefs.SetFloat("currentBalance", result.result.currentBalance);
                         PlayerPrefs.SetString("gameId", result.result.gameId);
                         PlayerPrefs.SetString("storeId", result.result.storeId);
@@ -165,7 +165,7 @@ namespace SocketIO
                     {
                         if (result.status == 400)
                         {
-                            Debug.Log("Status Code" + result.status);
+                            //Debug.Log("Status Code" + result.status);
                             AndroidToastMsg.ShowAndroidToastMessage(result.message);
                         }
                         try

@@ -141,7 +141,7 @@ namespace Titli.Gameplay
             yield return new WaitForSeconds(1f);
 
             InitialData winData = Utility.Utility.GetObjectOfType<InitialData>(o);
-            print("currentWin - " + winData.currentWin);
+            //print("currentWin - " + winData.currentWin);
 
             TodayWinText.text = winData.currentWin + "";
 

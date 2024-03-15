@@ -174,7 +174,7 @@ namespace Titli.UI
 
         IEnumerator send()
         {
-            print("here bet sending");
+            //print("here bet sending");
             SendBets();
             yield return new WaitForSeconds(0.5f);
         }
@@ -358,9 +358,9 @@ namespace Titli.UI
                 storeId = PlayerPrefs.GetString("storeId"),
                 gameID = PlayerPrefs.GetString("gameId")
             };
-                print("CarrotBets - "+CarrotBets);
+                //print("CarrotBets - "+CarrotBets);
             
-            print("GAME ID - "+ data.gameID+ ",   UserID: "+ data.userId +"\n"+"Carrot:" + data.carrot_total_bets + "\n" + "Papaya:" + data.papaya_total_bets + "\n" + "Cabbage:" + data.cabbage_total_bets + "\n" + "Chicken:" + data.chicken_total_bets + "\n" +"Mutton:" + data.pizza_total_bets + "\n" +"Shrimp:" + data.hotdog_total_bets + "\n" +"Fish:" + data.roll_total_bets + "\n" +"Tomato:" + data.tomato_total_bets + "\n" + data.gameID +  "\n" + data.storeId );
+            //print("GAME ID - "+ data.gameID+ ",   UserID: "+ data.userId +"\n"+"Carrot:" + data.carrot_total_bets + "\n" + "Papaya:" + data.papaya_total_bets + "\n" + "Cabbage:" + data.cabbage_total_bets + "\n" + "Chicken:" + data.chicken_total_bets + "\n" +"Mutton:" + data.pizza_total_bets + "\n" +"Shrimp:" + data.hotdog_total_bets + "\n" +"Fish:" + data.roll_total_bets + "\n" +"Tomato:" + data.tomato_total_bets + "\n" + data.gameID +  "\n" + data.storeId );
             Titli_ServerRequest.instance.socket.Emit(Events.OnBetsPlaced, new JSONObject(JsonConvert.SerializeObject(data)));
             isBetPlaced = false;
        //     print("CarrotBets - "+CarrotBets);

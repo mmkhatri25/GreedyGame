@@ -30,7 +30,7 @@ namespace Titli.Gameplay
         public Image lastWinerprofile_pic;
         public Text LastWinnername;
         public RootDailyUsers winData;
-
+        public GameObject Loadingbg;
 
         private void OnEnable()
         {
@@ -49,7 +49,7 @@ namespace Titli.Gameplay
         void HandleAction(JSONObject obj)
         {
             string mystr = obj.ToString().Substring(1, obj.ToString().Length - 2);
-            print("winData lists  - " + mystr);
+            //print("winData lists  - " + mystr);
             
             JSONObject abc = obj;
             winData = JsonUtility.FromJson<RootDailyUsers>(mystr);
@@ -60,6 +60,10 @@ namespace Titli.Gameplay
         }
         public void ShowWeeklyList()
         {
+            // show loader
+            Loadingbg.SetActive(true);
+            print("ShowWeeklyList");
+
             Playernewdata player = new Playernewdata() { userId = PlayerPrefs.GetString("userId") };
             Titli_ServerRequest.instance.socket.Emit(Events.winnerList, new JSONObject(Newtonsoft.Json.JsonConvert.SerializeObject(player)), HandleAction);
            
@@ -67,6 +71,10 @@ namespace Titli.Gameplay
         }
         public void ShowDailyList()
         {
+            // show loader
+            print("ShowDailyList");
+            Loadingbg.SetActive(true);
+
             Playernewdata player = new Playernewdata() { userId = PlayerPrefs.GetString("userId") };
             Titli_ServerRequest.instance.socket.Emit(Events.winnerList, new JSONObject(Newtonsoft.Json.JsonConvert.SerializeObject(player)), HandleAction);
            
@@ -74,83 +82,229 @@ namespace Titli.Gameplay
         }
 
 
+        //void PopulateRankItems(Transform m_transform, List<WeeklyTopUsers> root)
+        //{
+        //    print("PopulateRankItems");
+
+        //    Loadingbg.SetActive(true);
+        //    foreach (Transform child in m_transform) { Destroy(child.gameObject); }
+        //     if (root.Count<=0)
+        //      SetPlayerRanking((0).ToString(), true);
+        //     else
+        //      SetPlayerRanking((root.Count+1).ToString(), true);
+
+
+        //     for (int i = 0; i < root.Count; i++)
+        //    {
+        //        var item_go = Instantiate(m_ItemPrefab);
+        //        if (PlayerPrefs.GetString("userId") == root[i].userId)
+        //        {
+        //            SetPlayerRanking((i + 1).ToString(), true);
+        //            print("exists... " + root[i].userId);
+        //        }
+        //            // else
+        //            //SetPlayerRanking(root.Count+"+", true);
+        //        item_go.transform.SetParent(m_transform);
+        //        item_go.transform.localScale = Vector2.one;
+        //        item_go.GetComponent<RankitemSetup>().Username.text = root[i].name;
+        //        item_go.GetComponent<RankitemSetup>().winAmount.text = root[i].amount.ToString();
+        //        item_go.GetComponent<RankitemSetup>().UserRank.text = (i + 1).ToString();
+        //        //Loadingbg.SetActive(false);
+        //        //StartCoroutine(SetImageFromURL(root[i].profile_pic, item_go.GetComponent<RankitemSetup>().dp));
+        //    }
+        //}
         void PopulateRankItems(Transform m_transform, List<WeeklyTopUsers> root)
         {
+            print("weekly PopulateRankItems");
+
+            Loadingbg.SetActive(true);
             foreach (Transform child in m_transform) { Destroy(child.gameObject); }
-             if (root.Count<=0)
-              SetPlayerRanking((0).ToString(), true);
-             else
-              SetPlayerRanking((root.Count+1).ToString(), true);
-              
-           
-             for (int i = 0; i < root.Count; i++)
+
+            if (root.Count <= 0)
             {
-                var item_go = Instantiate(m_ItemPrefab);
-                if (PlayerPrefs.GetString("userId") == root[i].userId)
+                SetPlayerRanking("0", true);
+                Loadingbg.SetActive(false); // Deactivate loading background as there are no records to load
+            }
+            else
+            {
+                SetPlayerRanking((root.Count + 1).ToString(), true);
+
+                int loadedCount = 0; // Counter to track loaded images
+
+                for (int i = 0; i < root.Count; i++)
                 {
-                    SetPlayerRanking((i + 1).ToString(), true);
-                    print("exists... " + root[i].userId);
+                    var item_go = Instantiate(m_ItemPrefab);
+                    if (PlayerPrefs.GetString("userId") == root[i].userId)
+                    {
+                        SetPlayerRanking((i + 1).ToString(), true);
+                        //print("exists... " + root[i].userId);
+                    }
+
+                    item_go.transform.SetParent(m_transform);
+                    item_go.transform.localScale = Vector2.one;
+                    item_go.GetComponent<RankitemSetup>().Username.text = root[i].name;
+                    item_go.GetComponent<RankitemSetup>().winAmount.text = root[i].amount.ToString();
+                    item_go.GetComponent<RankitemSetup>().UserRank.text = (i + 1).ToString();
+                    loadedCount++;
+                    if (loadedCount == root.Count)
+                    {
+                        // Deactivate loading background once all images are loaded
+                        StartCoroutine(waitToCloseLoading());
+                    }
+                    // Load image asynchronously
+                    //StartCoroutine(SetImageFromURL(root[i].profile_pic, item_go.GetComponent<RankitemSetup>().dp, () => {
+                    //    loadedCount++; // Increment the loaded count when an image is loaded
+                    //                   // Check if all images have been loaded
+                    //    if (loadedCount == root.Count)
+                    //    {
+                    //        // Deactivate loading background once all images are loaded
+                    //        Loadingbg.SetActive(false);
+                    //    }
+                    //}));
                 }
-                    // else
-                    //SetPlayerRanking(root.Count+"+", true);
-                item_go.transform.SetParent(m_transform);
-                item_go.transform.localScale = Vector2.one;
-                item_go.GetComponent<RankitemSetup>().Username.text = root[i].name;
-                item_go.GetComponent<RankitemSetup>().winAmount.text = root[i].amount.ToString();
-                item_go.GetComponent<RankitemSetup>().UserRank.text = (i + 1).ToString();
-                StartCoroutine(SetImageFromURL(root[i].profile_pic, item_go.GetComponent<RankitemSetup>().dp));
             }
         }
+        IEnumerator waitToCloseLoading()
+        {
+            yield return new WaitForSeconds(2f);
+            Loadingbg.SetActive(false);
+
+        }
+
+
         void DailyPopulateRankItems(Transform m_transform, List<DailyTopusers> root)
         {
+            print("daily PopulateRankItems");
+
             foreach (Transform child in m_transform) { Destroy(child.gameObject); }
-            if (root.Count<=0)
-              SetPlayerRanking((0).ToString(), false);
-            else
-              SetPlayerRanking((root.Count+1).ToString(), false);
-              
-            for (int i = 0; i < root.Count; i++)
-            {
-                if (PlayerPrefs.GetString("userId") == root[i].userId)
-                    SetPlayerRanking((i + 1).ToString(), false);
-                    //else
-                    //SetPlayerRanking(root.Count+"+", false);
-                    
-                    
+            int loadedCount = 0; // Counter to track loaded images
 
-                var item_go = Instantiate(m_ItemPrefab);
-                item_go.transform.SetParent(m_transform);
-                item_go.transform.localScale = Vector2.one;
-                item_go.GetComponent<RankitemSetup>().Username.text = root[i].name;
-                item_go.GetComponent<RankitemSetup>().winAmount.text = root[i].amount.ToString();
-                item_go.GetComponent<RankitemSetup>().UserRank.text = (i + 1).ToString();
-                StartCoroutine(SetImageFromURL(root[i].profile_pic, item_go.GetComponent<RankitemSetup>().dp));
+            if (root.Count <= 0)
+            {
+                SetPlayerRanking("0", false);
+                Loadingbg.SetActive(false); // No records to load, deactivate loading background
             }
-
-        }
-        public static IEnumerator SetImageFromURL(string pictureURL, Image imageView)
-        {
-            if (pictureURL.Length > 0)
+            else
             {
-                WWW www = new WWW(pictureURL);
-                yield return www;
-                Texture2D ui_texture = www.texture;
-                if (ui_texture != null) {
-                    Sprite sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
-                    if (sprite != null)
+                SetPlayerRanking((root.Count + 1).ToString(), false);
+
+                for (int i = 0; i < root.Count; i++)
+                {
+                    if (PlayerPrefs.GetString("userId") == root[i].userId)
+                        SetPlayerRanking((i + 1).ToString(), false);
+
+                    var item_go = Instantiate(m_ItemPrefab);
+                    item_go.transform.SetParent(m_transform);
+                    item_go.transform.localScale = Vector2.one;
+                    item_go.GetComponent<RankitemSetup>().Username.text = root[i].name;
+                    item_go.GetComponent<RankitemSetup>().winAmount.text = root[i].amount.ToString();
+                    item_go.GetComponent<RankitemSetup>().UserRank.text = (i + 1).ToString();
+                    loadedCount++;
+                    if (loadedCount == root.Count)
                     {
-                        Debug.Log("ProfilePicUrlSet");
-                        imageView.overrideSprite = sprite;
+                        // Deactivate loading background once all images are loaded
+                        //Loadingbg.SetActive(false);
+                        StartCoroutine(waitToCloseLoading());
+
+                    }
+                    // Load image asynchronously
+                    //StartCoroutine(SetImageFromURL(root[i].profile_pic, item_go.GetComponent<RankitemSetup>().dp, () => {
+                    //    loadedCount++; // Increment the loaded count when an image is loaded
+                    //                   // Check if all images have been loaded
+                    //    if (loadedCount == root.Count)
+                    //    {
+                    //        // Deactivate loading background once all images are loaded
+                    //        Loadingbg.SetActive(false);
+                    //    }
+                    //}));
+                }
+            }
+        }
+
+        public IEnumerator SetImageFromURL(string pictureURL, Image imageView, Action onComplete = null)
+        {
+            if (!string.IsNullOrEmpty(pictureURL))
+            {
+                using (WWW www = new WWW(pictureURL))
+                {
+                    yield return www;
+
+                    Texture2D ui_texture = www.texture;
+                    if (ui_texture != null)
+                    {
+                        Sprite sprite = Sprite.Create(ui_texture, new Rect(0, 0, ui_texture.width, ui_texture.height), new Vector2(0, 0));
+                        if (sprite != null)
+                        {
+                            //Debug.Log("ProfilePicUrlSet");
+                            imageView.overrideSprite = sprite;
+                        }
                     }
                 }
             }
+
+            onComplete?.Invoke(); // Invoke the onComplete action if provided
         }
-        
-        
+
+        //void DailyPopulateRankItems(Transform m_transform, List<DailyTopusers> root)
+        //{
+        //    foreach (Transform child in m_transform) { Destroy(child.gameObject); }
+        //    if (root.Count<=0)
+        //      SetPlayerRanking((0).ToString(), false);
+        //    else
+        //      SetPlayerRanking((root.Count+1).ToString(), false);
+
+        //    for (int i = 0; i < root.Count; i++)
+        //    {
+        //        if (PlayerPrefs.GetString("userId") == root[i].userId)
+        //            SetPlayerRanking((i + 1).ToString(), false);
+        //            //else
+        //            //SetPlayerRanking(root.Count+"+", false);
+
+
+
+        //        var item_go = Instantiate(m_ItemPrefab);
+        //        item_go.transform.SetParent(m_transform);
+        //        item_go.transform.localScale = Vector2.one;
+        //        item_go.GetComponent<RankitemSetup>().Username.text = root[i].name;
+        //        item_go.GetComponent<RankitemSetup>().winAmount.text = root[i].amount.ToString();
+        //        item_go.GetComponent<RankitemSetup>().UserRank.text = (i + 1).ToString();
+        //        //StartCoroutine(SetImageFromURL(root[i].profile_pic, item_go.GetComponent<RankitemSetup>().dp));
+        //       // Loadingbg.SetActive(false);
+        //    }
+
+        //}
+        //public IEnumerator SetImageFromURL(string pictureURL, Image imageView)
+        //{
+        //    if (pictureURL.Length > 0)
+        //    {
+        //        WWW www = new WWW(pictureURL);
+        //        yield return www;
+        //        Texture2D ui_texture = www.texture;
+        //        if (ui_texture != null) {
+        //            Sprite sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
+        //            if (sprite != null)
+        //            {
+        //                Debug.Log("ProfilePicUrlSet");
+        //                imageView.overrideSprite = sprite;
+
+        //                StartCoroutine(closeLoading());
+        //            }
+        //        }
+        //    }
+        //    // hide loader
+
+        //}
+
+        //IEnumerator closeLoading()
+        //{
+        //    yield return new WaitForSeconds(2f);
+        //    Loadingbg.SetActive(false);
+        //}
+
 
         void SetPlayerRanking(string rank, bool isWeekly)
         {
-            print(isWeekly +" weekly getting rank - " + rank + "--- "+winData.userInfo.name);
+            //print(isWeekly +" weekly getting rank - " + rank + "--- "+winData.userInfo.name);
             selfName.text = winData.userInfo.name;
             //if (rank > 0)
                 selfRank.text = rank.ToString();
