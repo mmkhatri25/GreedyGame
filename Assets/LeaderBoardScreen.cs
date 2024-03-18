@@ -7,6 +7,8 @@ using Titli.Utility;
 using Titli.ServerStuff;
 using System;
 using Newtonsoft.Json;
+using UnityEngine.Networking;
+
 namespace Titli.Gameplay
 {
 
@@ -151,6 +153,16 @@ namespace Titli.Gameplay
                         // Deactivate loading background once all images are loaded
                         StartCoroutine(waitToCloseLoading());
                     }
+                    SetImageFromURL(root[i].profile_pic, item_go.GetComponent<RankitemSetup>().dp, () =>
+                    {
+                        loadedCount++; // Increment the loaded count when an image is loaded
+                                       // Check if all images have been loaded
+                        if (loadedCount == root.Count)
+                        {
+                            // Deactivate loading background once all images are loaded
+                            Loadingbg.SetActive(false);
+                        }
+                    });
                     // Load image asynchronously
                     //StartCoroutine(SetImageFromURL(root[i].profile_pic, item_go.GetComponent<RankitemSetup>().dp, () => {
                     //    loadedCount++; // Increment the loaded count when an image is loaded
@@ -208,42 +220,72 @@ namespace Titli.Gameplay
 
                     }
                     // Load image asynchronously
-                    //StartCoroutine(SetImageFromURL(root[i].profile_pic, item_go.GetComponent<RankitemSetup>().dp, () => {
-                    //    loadedCount++; // Increment the loaded count when an image is loaded
-                    //                   // Check if all images have been loaded
-                    //    if (loadedCount == root.Count)
-                    //    {
-                    //        // Deactivate loading background once all images are loaded
-                    //        Loadingbg.SetActive(false);
-                    //    }
-                    //}));
+                    SetImageFromURL(root[i].profile_pic, item_go.GetComponent<RankitemSetup>().dp, () =>
+                    {
+                        loadedCount++; // Increment the loaded count when an image is loaded
+                                       // Check if all images have been loaded
+                        if (loadedCount == root.Count)
+                        {
+                            // Deactivate loading background once all images are loaded
+                            Loadingbg.SetActive(false);
+                        }
+                    });
                 }
             }
         }
-
-        public IEnumerator SetImageFromURL(string pictureURL, Image imageView, Action onComplete = null)
+        public void SetImageFromURL(string pictureURL, Image imageView, Action onComplete = null)
         {
             if (!string.IsNullOrEmpty(pictureURL))
             {
-                using (WWW www = new WWW(pictureURL))
-                {
-                    yield return www;
+                StartCoroutine(DownloadImage(pictureURL, imageView, onComplete));
+            }
+        }
 
-                    Texture2D ui_texture = www.texture;
-                    if (ui_texture != null)
-                    {
-                        Sprite sprite = Sprite.Create(ui_texture, new Rect(0, 0, ui_texture.width, ui_texture.height), new Vector2(0, 0));
-                        if (sprite != null)
-                        {
-                            //Debug.Log("ProfilePicUrlSet");
-                            imageView.overrideSprite = sprite;
-                        }
-                    }
+        private IEnumerator DownloadImage(string pictureURL, Image imageView, Action onComplete)
+        {
+            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(pictureURL))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    Texture2D ui_texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                    Sprite sprite = Sprite.Create(ui_texture, new Rect(0, 0, ui_texture.width, ui_texture.height), new Vector2(0.5f, 0.5f));
+
+                    imageView.sprite = sprite;
+                }
+                else
+                {
+                    Debug.Log("Failed to download image: " + www.error);
                 }
             }
 
             onComplete?.Invoke(); // Invoke the onComplete action if provided
         }
+
+        //public IEnumerator SetImageFromURL(string pictureURL, Image imageView, Action onComplete = null)
+        //{
+        //    if (!string.IsNullOrEmpty(pictureURL))
+        //    {
+        //        using (WWW www = new WWW(pictureURL))
+        //        {
+        //            yield return www;
+
+        //            Texture2D ui_texture = www.texture;
+        //            if (ui_texture != null)
+        //            {
+        //                Sprite sprite = Sprite.Create(ui_texture, new Rect(0, 0, ui_texture.width, ui_texture.height), new Vector2(0, 0));
+        //                if (sprite != null)
+        //                {
+        //                    //Debug.Log("ProfilePicUrlSet");
+        //                    imageView.overrideSprite = sprite;
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    onComplete?.Invoke(); // Invoke the onComplete action if provided
+        //}
 
         //void DailyPopulateRankItems(Transform m_transform, List<DailyTopusers> root)
         //{
@@ -315,9 +357,9 @@ namespace Titli.Gameplay
                 selfAmount.text = winData.weeklyAmount.ToString();
             else
                 selfAmount.text = Titli_RoundWinningHandler.Instance.TodayWinText.text;
-    
 
-            StartCoroutine(SetImageFromURL(winData.userInfo.profile_pic, selfDP));
+            SetImageFromURL(winData.userInfo.profile_pic, selfDP);
+            //StartCoroutine(SetImageFromURL(winData.userInfo.profile_pic, selfDP));
         }
         public Text thisweektimer, thisWeekPrize;
         public bool isTimerSet;
@@ -326,7 +368,9 @@ namespace Titli.Gameplay
             LastWinnername.text = winData.lastWinner.name;
             lastwinnerprize.text = winData.lastWinner.prize.ToString();
             lastwinneramount.text = winData.lastWinner.amount.ToString();
-            StartCoroutine(SetImageFromURL(winData.lastWinner.profile_pic, lastWinerprofile_pic));
+            //StartCoroutine(SetImageFromURL(winData.lastWinner.profile_pic, lastWinerprofile_pic));
+            SetImageFromURL(winData.userInfo.profile_pic, selfDP);
+
             thisWeekPrize.text = "Prize : "+winData.prize.ToString();
             if (!isTimerSet)
                 StartCoroutine(Countdown((int)(winData.time/1000)));
