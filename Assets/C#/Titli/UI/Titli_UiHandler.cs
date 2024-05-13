@@ -25,6 +25,8 @@ namespace Titli.UI
     public class Titli_UiHandler : MonoBehaviour
     {
         public bool isBetPlaced;
+        public bool isInternetGone = false;
+
         public static Titli_UiHandler Instance;
         public Chip currentChip;
         public Image[] chip_select;
@@ -38,6 +40,9 @@ namespace Titli.UI
         public GameObject Win_Text_base;
         [SerializeField] Text balanceTxt;
         int totalBetsValue;
+
+
+
         void Awake()
         {
             Instance = this;
@@ -47,6 +52,8 @@ namespace Titli.UI
         // Start is called before the first frame update
         void Start()
         {
+            StartCoroutine(CheckInternetConnection());
+
             ResetUi();
             AddListeners();
             totalBetsValue = 0;
@@ -59,6 +66,38 @@ namespace Titli.UI
             musicPlaying = true;
             StartCoroutine(CheckInternet());
         }
+
+
+
+        private IEnumerator CheckInternetConnection()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1f);
+
+                if (Application.internetReachability == NetworkReachability.NotReachable)
+                {
+                    // Show the popup if internet connection is lost
+                    isInternetGone = true;
+                    pausePanel.SetActive(true);
+                    Debug.Log("NotReachable=====");
+                }
+                else
+                {
+                    Debug.Log("Reachable=====");
+                    if (isInternetGone)
+                    {
+                        isInternetGone = false;
+                        pausePanel.SetActive(false);
+                        SceneManager.LoadScene(0);
+                    }
+                    
+                }
+            }
+        }
+       
+
+
         bool musicPlaying;
         public GameObject soundOn, soundOff;
         public void soundONOFF()
@@ -142,7 +181,7 @@ namespace Titli.UI
              //   Debug.Log(isPaused);
                 StopAllCoroutines();
                 ResetUi();
-                Titli_ServerResponse.Instance.removeSocketListner();
+                Titli_ServerResponse.Instance.removeSocketListener();
             }
             if (!isPaused) 
             {
@@ -237,6 +276,7 @@ namespace Titli.UI
             //PizzaBets = 0;
             //ChickenBets = 0;
             balance -= (float)currentChip;
+           // PlayerPrefs.SetFloat("BetChip", (float)currentChip);
             PlayerPrefs.SetFloat("nowcoins", (float)balance);
             totalBetsValue += (int)currentChip;
 
@@ -340,7 +380,9 @@ namespace Titli.UI
             
         }
         public void SendBets()
-        {            
+        {
+
+            Debug.Log("On Send bet - Game Id = "+PlayerPrefs.GetString("gameId") + " And BetChip = "+PlayerPrefs.GetFloat("BetChip"));
 
             Titli_RoundWinningHandler.Instance.total_bet = betsholder.Sum();
             bet_data data = new bet_data()
@@ -360,7 +402,7 @@ namespace Titli.UI
             };
                 //print("CarrotBets - "+CarrotBets);
             
-            //print("GAME ID - "+ data.gameID+ ",   UserID: "+ data.userId +"\n"+"Carrot:" + data.carrot_total_bets + "\n" + "Papaya:" + data.papaya_total_bets + "\n" + "Cabbage:" + data.cabbage_total_bets + "\n" + "Chicken:" + data.chicken_total_bets + "\n" +"Mutton:" + data.pizza_total_bets + "\n" +"Shrimp:" + data.hotdog_total_bets + "\n" +"Fish:" + data.roll_total_bets + "\n" +"Tomato:" + data.tomato_total_bets + "\n" + data.gameID +  "\n" + data.storeId );
+            print("send bete GAME ID - " + data.gameID+ ",   UserID: "+ data.userId +"\n"+"Carrot:" + data.carrot_total_bets + "\n" + "Papaya:" + data.papaya_total_bets + "\n" + "Cabbage:" + data.cabbage_total_bets + "\n" + "Chicken:" + data.chicken_total_bets + "\n" +"Mutton:" + data.pizza_total_bets + "\n" +"Shrimp:" + data.hotdog_total_bets + "\n" +"Fish:" + data.roll_total_bets + "\n" +"Tomato:" + data.tomato_total_bets + "\n" + data.gameID +  "\n" + data.storeId );
             Titli_ServerRequest.instance.socket.Emit(Events.OnBetsPlaced, new JSONObject(JsonConvert.SerializeObject(data)));
             isBetPlaced = false;
        //     print("CarrotBets - "+CarrotBets);

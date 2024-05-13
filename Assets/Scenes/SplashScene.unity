@@ -552,6 +552,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1252740429}
   m_CullTransparentMesh: 1
+--- !u!1 &1280642575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1280642577}
+  - component: {fileID: 1280642576}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1280642576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280642575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3159903d1e4545a0ab2d8945cebf129, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  url: wss://gapi.yaravoice.com:4002/socket.io/?EIO=3&transport=websocket
+--- !u!4 &1280642577
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280642575}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 34.398045, y: 66.9978, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1827630620
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,6 +652,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SocketIOComponents
       objectReference: {fileID: 0}
+    - target: {fileID: 495038765954590891, guid: b1c317f1d143d46308afc126622a189c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 495038765954590892, guid: b1c317f1d143d46308afc126622a189c, type: 3}
       propertyPath: url
       value: 
@@ -625,8 +673,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 495038765954590892, guid: b1c317f1d143d46308afc126622a189c, type: 3}
+      propertyPath: isConnected
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 495038765954590892, guid: b1c317f1d143d46308afc126622a189c, type: 3}
       propertyPath: Production_url
       value: wss://gapi.yaravoice.com:4002/socket.io/?EIO=3&transport=websocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 495038765954590892, guid: b1c317f1d143d46308afc126622a189c, type: 3}
+      propertyPath: isSocketConnected
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 495038765954590893, guid: b1c317f1d143d46308afc126622a189c, type: 3}
       propertyPath: m_RootOrder

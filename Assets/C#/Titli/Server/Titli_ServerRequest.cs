@@ -28,6 +28,8 @@ namespace Titli.ServerStuff
                 gameId = "4"
             };
             socket.Emit(Events.RegisterPlayer, new JSONObject( Newtonsoft.Json.JsonConvert.SerializeObject(player)) );
+            //socket.Emit(Events.OnCurrentTimer);
+
         }
 
         public void LeaveRoom()

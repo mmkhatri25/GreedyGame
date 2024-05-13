@@ -119,8 +119,10 @@ namespace Titli.Gameplay
         public GameObject Win_Panel, win_amount_desc, No_Win_Description;
         public Text Win_amount_text, Total_Bet_text, TodayWinText;
         public Image Win_Image,Win_Image_other;
-        
-       
+
+        //loss 
+        public Text Lost_amount_text, Lost_Bet_text;
+
 
         private void Awake()
         {
@@ -510,6 +512,8 @@ namespace Titli.Gameplay
             }
             else
             {
+                Lost_amount_text.text = total_bet.ToString();
+                Lost_Bet_text.text = total_bet.ToString();
                 win_amount_desc.SetActive(false);
                 No_Win_Description.SetActive(true);
                 Win_Panel.SetActive(true);

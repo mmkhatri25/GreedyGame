@@ -141,6 +141,8 @@ namespace Titli.Gameplay
             //         break;
             // }
             betManager.AddBets(spot, Titli_UiHandler.Instance.currentChip);
+            Debug.Log("On Add bet - Game Id = " + PlayerPrefs.GetString("gameId") + " And BetChip = " + PlayerPrefs.GetFloat("BetChip"));
+
             // Titli_UiHandler.Instance.UpDateBets(spot, chip);         // not need as it gives bot data
             // GameObject chipInstance = Titli_ChipSpawner.Instance.Spawn(0, chip, GetChipParent(spot));
             //StartCoroutine(MoveChip(chipInstance, target)); 

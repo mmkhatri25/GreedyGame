@@ -11,6 +11,7 @@ public class LobbyServerRequest : Titli.ServerStuff.Titli_SocketHandler
 {  
     private void Start()
     {
+        Debug.Log("LobbyServerRequest");
         SceneManager.LoadScene("MainScene");
         //socket = GameObject.Find("SocketIOComponents").GetComponent<SocketIOComponent>();
         socket.On("open", OnConnected);
