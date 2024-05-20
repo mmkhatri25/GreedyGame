@@ -98,7 +98,9 @@ namespace Titli.Utility
         pizza = 6,
         chicken = 7,
         veg = 8,
-        nonveg =9
-        
+        nonveg =9,
+        //roll = 10
+
+
     }
 }

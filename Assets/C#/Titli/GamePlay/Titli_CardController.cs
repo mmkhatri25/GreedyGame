@@ -104,44 +104,29 @@ namespace Titli.Gameplay
             // StopCoroutine(CardBlink_coroutine);
         }
 
+        public void CreateChipOnReconnet(Spots spott, Chip chipp)
+        {
+            if (!Titli_UiHandler.Instance.IsEnoughBalancePresent()) return;
+            Chip chip = chipp;// Titli_UiHandler.Instance.currentChip;
+            Spots spot = spott;
+            //Titli_UiHandler.Instance.AddBets(spot);
+            Debug.Log("CreateChipOnReconnet - " + Titli_UiHandler.Instance.currentChip);
+
+
+            //betManager.AddBets(spot, Titli_UiHandler.Instance.currentChip);
+        }
         void CreateChip(Transform bettingSpot, Vector3 target)
         {
             if (!Titli_UiHandler.Instance.IsEnoughBalancePresent()) return;
             Chip chip = Titli_UiHandler.Instance.currentChip;
             Spots spot = bettingSpot.GetComponent<BettingSpot>().spotType;
-            Titli_UiHandler.Instance.AddBets(spot);
-            // ServerRequest.instance.OnChipMove(target, chip, spot);
-            // switch (spot)
-            // {
-            //     case Spots.carrot:
-            //         target = CarrotChipPos.transform.position;
-            //         break;
-            //     case Spots.papaya:
-            //         target = PapayaChipPos.transform.position;
-            //         break;
-            //     case Spots.Cabbage:
-            //         target = CabbageChipPos.transform.position;
-            //         break;
-            //     case Spots.chicken:
-            //         target = ChickenChipPos.transform.position;
-            //         break;
-            //     case Spots.meat:
-            //         target = MuttonChipPos.transform.position;
-            //         break;
-            //     case Spots.shrimp:
-            //         target = ShrimpChipPos.transform.position;
-            //         break;
-            //     case Spots.Fish:
-            //         target = FishChipPos.transform.position;
-            //         break;
-            //     case Spots.tomato:
-            //         target = TomatoChipPos.transform.position;
-            //         break;
-            //     default:
-            //         break;
-            // }
+            Debug.Log("Create ChipOn Normal spot " + spot);
+
+            //Titli_UiHandler.Instance.AddBets(spot);
+
+            Debug.Log("On CreateChip - " + Titli_UiHandler.Instance.currentChip);
+
             betManager.AddBets(spot, Titli_UiHandler.Instance.currentChip);
-            Debug.Log("On Add bet - Game Id = " + PlayerPrefs.GetString("gameId") + " And BetChip = " + PlayerPrefs.GetFloat("BetChip"));
 
             // Titli_UiHandler.Instance.UpDateBets(spot, chip);         // not need as it gives bot data
             // GameObject chipInstance = Titli_ChipSpawner.Instance.Spawn(0, chip, GetChipParent(spot));

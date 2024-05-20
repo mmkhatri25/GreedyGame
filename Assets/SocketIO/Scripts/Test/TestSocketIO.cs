@@ -37,10 +37,10 @@ public class TestSocketIO : MonoBehaviour
 	public void Start() 
 	{
 
-		socket.On("open", OnConnected);
-		socket.On("boop", TestBoop);
-		socket.On("error", TestError);
-		socket.On("disconnected", TestClose);
+		//socket.On("open", OnConnected);
+		//socket.On("boop", TestBoop);
+		//socket.On("error", TestError);
+		//socket.On("disconnected", TestClose);
 		
 		StartCoroutine(BeepBoop());
 	}
@@ -48,7 +48,7 @@ public class TestSocketIO : MonoBehaviour
     {
 		object o = new { msg = "nikal lkb" };
 		print(o);
-		socket.Emit("beep",new JSONObject(JsonConvert.SerializeObject(o)));
+		//socket.Emit("beep",new JSONObject(JsonConvert.SerializeObject(o)));
 
     }
 	private IEnumerator BeepBoop()
@@ -57,23 +57,23 @@ public class TestSocketIO : MonoBehaviour
 		print("sending req");
 		yield return new WaitForSeconds(1);
 		
-		socket.Emit("beep",new JSONObject("nikal lkb"));
+		//socket.Emit("beep",new JSONObject("nikal lkb"));
 		
 		// wait 3 seconds and continue
 		yield return new WaitForSeconds(3);
 		
-		socket.Emit("beep");
+		//socket.Emit("beep");
 		
 		// wait 2 seconds and continue
 		yield return new WaitForSeconds(2);
 		
-		socket.Emit("beep");
+		//socket.Emit("beep");
 		
 		// wait ONE FRAME and continue
 		yield return null;
 		
-		socket.Emit("beep");
-		socket.Emit("beep");
+		//socket.Emit("beep");
+		//socket.Emit("beep");
 	}
 	void OnConnected(SocketIOEvent e)
 	{

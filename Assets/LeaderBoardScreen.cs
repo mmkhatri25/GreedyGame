@@ -392,9 +392,13 @@ namespace Titli.Gameplay
         public bool isTimerSet;
         void SetupLastWinner()
         {
-            LastWinnername.text = winData.lastWinner.name;
-            lastwinnerprize.text = winData.lastWinner.prize.ToString();
-            lastwinneramount.text = winData.lastWinner.amount.ToString();
+            if(LastWinnername.gameObject!=null)
+                LastWinnername.text = winData.lastWinner.name;
+            if (lastwinnerprize.gameObject != null)
+                lastwinnerprize.text = winData.lastWinner.prize.ToString();
+            if (lastwinneramount.gameObject != null)
+                lastwinneramount.text = winData.lastWinner.amount.ToString();
+
             //StartCoroutine(SetImageFromURL(winData.lastWinner.profile_pic, lastWinerprofile_pic));
             SetImageFromURL(winData.userInfo.profile_pic, selfDP);
 

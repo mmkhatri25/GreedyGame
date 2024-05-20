@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Titli.Utility;
 using Shared;
+using Titli.UI;
 
 namespace Titli.Gameplay
 {
@@ -16,6 +17,7 @@ namespace Titli.Gameplay
             }
             private void Start()
             {
+                Debug.Log("Here Bet manager is ready...");
                 betHolder.Add(Spots.carrot, 0);
                 betHolder.Add(Spots.papaya, 0);
                 betHolder.Add(Spots.Cabbage, 0);
@@ -43,10 +45,15 @@ namespace Titli.Gameplay
             }
             public void AddBets(Spots betType, Chip chipType)
             {
+                print("AddBets - place type - " + betType.ToString() + " , chipType "+ chipType);
                 betHolder[betType] = GetBetAmount(chipType);
+                 Titli_UiHandler.Instance.AddBets(betType);
+                
             }
             private int GetBetAmount(Chip chipType)
             {
+                print("In GetBetAmount chipType "+ chipType);
+
                 int amount = 0;
                 switch (chipType)
                 {
@@ -68,7 +75,9 @@ namespace Titli.Gameplay
                     default:
                         break;
                 }
-                return amount;
+                print("In GetBetAmount chipType amount = " + amount);
+
+                 return amount;
             }
     }
 }

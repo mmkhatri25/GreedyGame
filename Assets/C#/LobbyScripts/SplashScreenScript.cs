@@ -17,7 +17,7 @@ namespace SocketIO
         public bool isUAT;
 
         public string url, uatUrl, productionUrl;
-        public string userIdVar;
+        public string userIdUat, userIdLive, userIdVar;
 
         public class BalanceREsponse
         {
@@ -41,9 +41,16 @@ namespace SocketIO
 
             #if (UNITY_EDITOR)
             if (isUAT)
+            {
                 url = uatUrl;
+                userIdVar = userIdUat;
+            }
             else
+            {
                 url = productionUrl;
+                userIdVar = userIdLive;
+
+            }
             StartCoroutine(GetDataApi(url, userIdVar));
             PlayerPrefs.SetString("userId", userIdVar);
             #else
@@ -151,7 +158,7 @@ namespace SocketIO
                 else
                 {
                     BalanceREsponse result = Newtonsoft.Json.JsonConvert.DeserializeObject<BalanceREsponse>(www.downloadHandler.text);
-                    //Debug.Log("result   " + result.status);
+                    Debug.Log("result   " + result.result.name);
                     if (result.status == 200)
                     {
                         //Debug.Log("Data Recieved successfully.... " + www.downloadHandler.text);
@@ -159,7 +166,9 @@ namespace SocketIO
                         PlayerPrefs.SetString("gameId", result.result.gameId);
                         PlayerPrefs.SetString("storeId", result.result.storeId);
                         PlayerPrefs.SetString("name", result.result.name);
+                        //SceneManager.LoadScene(1);
                         SceneManager.LoadScene(1);
+
                     }
                     else
                     {

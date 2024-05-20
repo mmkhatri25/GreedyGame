@@ -97,7 +97,7 @@ namespace Titli.Gameplay
             //    StartCoroutine(currentTimer(init.gametimer));
             //}
                 todaywin.text = init.currentWin.ToString();
-
+                
          }
        }
 

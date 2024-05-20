@@ -3,18 +3,43 @@ using System.Collections;
 using UnityEngine;
 using Titli.Utility;
 using Shared;
+using System;
+using UnityEngine.SceneManagement;
 
 namespace Titli.ServerStuff
 {
     public class Titli_ServerRequest : Titli_SocketHandler
     {
         public static Titli_ServerRequest instance;
-        
+        public static Action onJoinGame;
+
+        private void OnEnable()
+        {
+            onJoinGame += JoinGame;
+        }
+        private void OnDisable()
+        {
+            onJoinGame -= JoinGame;
+
+        }
         public void Awake()
         {
             socket = GameObject.Find("SocketIOComponents").GetComponent<SocketIOComponent>();
             instance = this;
 
+        }
+        private void Update()
+        {
+            if (socket.MyScoketDisconnected)
+            {
+                Debug.Log("JoinGame on reconnect");
+
+                socket.MyScoketDisconnected = false;
+                StopAllCoroutines();
+                Titli_ServerResponse.Instance.removeSocketListener();
+                SceneManager.LoadScene(0);
+                JoinGame();
+            }
         }
         public void JoinGame()
         {
@@ -27,7 +52,9 @@ namespace Titli.ServerStuff
                 balance = "1000",
                 gameId = "4"
             };
-            socket.Emit(Events.RegisterPlayer, new JSONObject( Newtonsoft.Json.JsonConvert.SerializeObject(player)) );
+            Debug.Log("On RegisterPlayer "+ player.playerId + " , "+ player.userId + " , "+ player.balance);
+
+            socket.Emit("RegisterPlayer", new JSONObject( Newtonsoft.Json.JsonConvert.SerializeObject(player)) );
             //socket.Emit(Events.OnCurrentTimer);
 
         }

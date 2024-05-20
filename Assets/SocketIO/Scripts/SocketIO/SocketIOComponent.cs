@@ -1,43 +1,15 @@
-﻿#region License
-/*
- * SocketIO.cs
- *
- * The MIT License
- *
- * Copyright (c) 2014 Fabio Panettieri
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-#endregion
-
-//#define SOCKET_IO_DEBUG			// Uncomment this for debug
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
 
 namespace SocketIO
 {
+    
     public class SocketIOComponent : MonoBehaviour
     {
         #region Public Properties
@@ -55,13 +27,13 @@ namespace SocketIO
         public WebSocket socket { get { return ws; } }
         public string sid { get; set; }
         public bool IsConnected { get { return connected; } }
-        private bool isconnected = false;
+        public bool MyScoketDisconnected = false;
 
         #endregion
 
         #region Private Properties
 
-        private volatile bool connected;
+        public volatile bool connected;
         private volatile bool thPinging;
         private volatile bool thPong;
         private volatile bool wsConnected;
@@ -85,18 +57,20 @@ namespace SocketIO
         private object ackQueueLock;
         private Queue<Packet> ackQueue;
 
-
-
         //================//
         public bool isConnected = true;
         public bool isSocketConnected = true;
         public bool gameReloaded = false;
-        
+
         //===============//
+
+        public bool firstConnectionAttempt = true;
 
         #endregion
 
         #region Unity interface
+
+        public static SocketIOComponent instance;
 
         private bool getIntentData()
         {
@@ -124,7 +98,16 @@ namespace SocketIO
 
         public void Awake()
         {
-            DontDestroyOnLoad(this.gameObject);
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else if (instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+
 
             // Set URL based on environment
             if (isUAT)
@@ -147,7 +130,6 @@ namespace SocketIO
             ws.OnError += OnError;
             ws.OnClose += OnClose;
 
-           
             wsConnected = false;
 
             eventQueueLock = new object();
@@ -157,111 +139,27 @@ namespace SocketIO
             ackQueue = new Queue<Packet>();
 
             connected = false;
+            UnityMainThreadDispatcher.Instance();
         }
 
         public void Start()
         {
             if (autoConnect)
                 Connect();
-
-           // StartCoroutine(CheckInternetConnection());
-
-            // Check socket connectivity
-           // CheckSocketConnection();
         }
 
-
-        IEnumerator CheckInternetConnection()
+        public void Connect()
         {
-            while (true)
-            {
-                // Check if internet is available
-                if (Application.internetReachability == NetworkReachability.NotReachable)
-                {
-                    isConnected = false;
-                    ShowPopup("Internet disconnected!");
-                    Debug.Log("=====Internet is not reachabled...");
-                    
-                }
-                else
-                {
-                    isConnected = true;
-                    //if (popupText.text == "Internet disconnected!")
-                    {
-                        HidePopup();
-                    }
-                    Debug.Log("=====Internet is connected..");
+            connected = true;
 
-                }
+            socketThread = new Thread(RunSocketThread);
+            socketThread.Start(ws);
 
-                yield return new WaitForSeconds(2f); // Check every 2 seconds
-            }
+            pingThread = new Thread(RunPingThread);
+            pingThread.Start(ws);
+            Debug.Log("in Connect() now ");
         }
 
-        void CheckSocketConnection()
-        {
-            // Check socket connection status
-            // Replace this condition with your own socket connection check
-            // For example, if you're using WebSocket, check WebSocket state
-            if (!IsSocketConnected())
-            {
-                isSocketConnected = false;
-                ShowPopup("Socket disconnected!");
-                Debug.Log("=====Socket disconnected!...");
-
-            }
-            else
-            {
-                isSocketConnected = true;
-                //if (popupText.text == "Socket disconnected!")
-                {
-                    HidePopup();
-                }
-                Debug.Log("=====Socket connected!...");
-
-            }
-        }
-
-        bool IsSocketConnected()
-        {
-            // Implement your own socket connection check here
-            // For demonstration, always return true
-            return true;
-        }
-        public GameObject pausePopup;
-        void ShowPopup(string message)
-        {
-            try
-            {
-                pausePopup = GameObject.Find("PausePanel").gameObject;
-                pausePopup.SetActive(true);
-            }
-            catch (Exception ex)
-            {
-                Debug.Log("pause panel not found" + ex);
-            }
-           
-            //popupText.text = message;
-            // Show your popup UI
-        }
-
-        void HidePopup()
-        {
-            pausePopup.SetActive(false);
-
-            //  popupText.text = "";
-            // Hide your popup UI
-        }
-
-
-
-        void ReloadGame()
-        {
-            // Reload the game from scene 0
-            Debug.Log("=====Reload Scene..");
-
-            SceneManager.LoadScene(0);
-        }
         public void Update()
         {
             // Process event and ack queues
@@ -281,15 +179,6 @@ namespace SocketIO
                 }
             }
 
-            // Check WebSocket connection status
-            if (!ws.IsConnected)
-            {
-                // Socket is disconnected
-                Debug.Log("Socket disconnected.");
-                //Connect();
-                // You can handle the disconnection here
-            }
-
             if (wsConnected != ws.IsConnected)
             {
                 wsConnected = ws.IsConnected;
@@ -307,26 +196,18 @@ namespace SocketIO
             if (ackList.Count == 0) return;
             if (DateTime.Now.Subtract(ackList[0].time).TotalSeconds < ackExpirationTime) return;
             ackList.RemoveAt(0);
-
-            //if (isConnected && isSocketConnected && !gameReloaded && UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != 0)
-            //{
-            //    Debug.Log("=====inside update Reload Scene..");
-
-            //    // Reload the game from scene 0 only if it's not already there
-            //    ReloadGame();
-            //    gameReloaded = true; // Set the flag to indicate that the game has been reloaded
-            //}
-
         }
 
         public void OnDestroy()
         {
             if (socketThread != null)
             {
+                connected = false; // Ensure thread loop ends
                 socketThread.Join();
             }
             if (pingThread != null)
             {
+                connected = false; // Ensure thread loop ends
                 pingThread.Join();
             }
         }
@@ -334,21 +215,6 @@ namespace SocketIO
         public void OnApplicationQuit()
         {
             Close();
-        }
-
-        #endregion
-
-        #region Public Interface
-
-        public void Connect()
-        {
-            connected = true;
-
-            socketThread = new Thread(RunSocketThread);
-            socketThread.Start(ws);
-
-            pingThread = new Thread(RunPingThread);
-            pingThread.Start(ws);
         }
 
         public void Close()
@@ -416,10 +282,6 @@ namespace SocketIO
             ackList.Add(new Ack(packetId, action));
         }
 
-        #endregion
-
-        #region Private Methods
-
         private void RunSocketThread(object obj)
         {
             WebSocket webSocket = (WebSocket)obj;
@@ -429,6 +291,18 @@ namespace SocketIO
                 {
                     if (!webSocket.IsConnected)
                     {
+                        //if (firstConnectionAttempt)
+                        //{
+                        //    firstConnectionAttempt = false;
+                        //}
+                        //else
+                        //{
+                        //    MyScoketDisconnected = true;
+                        //    Debug.Log("Socket disconnected. Reloading the scene...");
+                        //    ReloadScene();
+                        //    break;
+                        //}
+
                         Debug.Log("Socket disconnected. Attempting to reconnect...");
                         webSocket.Connect();
                     }
@@ -442,6 +316,37 @@ namespace SocketIO
                 Thread.ResetAbort();
                 Debug.Log("Thread Abort Exception Occurred and Caught: " + e.Message);
             }
+        }
+
+        private void ReloadScene()
+        {
+            // Ensure this runs on the main thread, as Unity API calls are not thread-safe
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                //Titli_ServerResponse.Instance.removeSocketListener();
+                //PlayerPrefs.SetInt("firstConnectionAttempt", 1);
+
+                if (ws != null)
+                {
+                    ws.OnOpen -= OnOpen;
+                    ws.OnMessage -= OnMessage;
+                    ws.OnError -= OnError;
+                    ws.OnClose -= OnClose;
+                }
+
+                //SceneManager.LoadScene(0);
+                StartCoroutine(WaitAndLoadScene());
+
+            });
+        }
+        private IEnumerator WaitAndLoadScene()
+        {
+            
+            yield return new WaitForSeconds(2.0f);
+            print("333 Titli_ServerResponse Removed Listners..." + MyScoketDisconnected);
+
+            // Load the scene
+            SceneManager.LoadScene(0);
         }
 
         private void RunPingThread(object obj)
@@ -469,7 +374,7 @@ namespace SocketIO
                         EmitPacket(new Packet(EnginePacketType.PING));
                         pingStart = DateTime.Now;
 
-                        while (webSocket.IsConnected && thPinging && (DateTime.Now.Subtract(pingStart).TotalSeconds < timeoutMilis))
+                        while (webSocket.IsConnected && thPinging && (DateTime.Now.Subtract(pingStart).TotalMilliseconds < timeoutMilis))
                         {
                             Thread.Sleep(200);
                         }
@@ -492,24 +397,63 @@ namespace SocketIO
 
         private void EmitMessage(int id, string raw)
         {
-            EmitPacket(new Packet(EnginePacketType.MESSAGE, SocketPacketType.EVENT, 0, "/", id, new JSONObject(raw)));
+            Packet packet = new Packet(EnginePacketType.MESSAGE, SocketPacketType.EVENT, 0, "/", id, new JSONObject(raw));
+            EmitPacket(packet);
         }
 
         private void EmitClose()
         {
-            EmitPacket(new Packet(EnginePacketType.MESSAGE, SocketPacketType.DISCONNECT, 0, "/", -1, new JSONObject("")));
-            EmitPacket(new Packet(EnginePacketType.CLOSE));
+            Packet packet = new Packet(EnginePacketType.MESSAGE, SocketPacketType.DISCONNECT, 0, "/", -1, new JSONObject(string.Empty));
+            EmitPacket(packet);
         }
 
         private void EmitPacket(Packet packet)
         {
+            if (!connected)
+            {
+                Debug.Log("Can't emit packet: not connected");
+                return;
+            }
+
             try
             {
                 ws.Send(encoder.Encode(packet));
             }
-            catch (SocketIOException ex)
+            catch (Exception ex)
             {
-                Debug.Log(ex.ToString());
+                Debug.Log("WebSocket send exception: " + ex.Message);
+            }
+        }
+
+        private void EmitEvent(string type)
+        {
+            EmitEvent(new SocketIOEvent(type));
+        }
+
+        private void EmitEvent(SocketIOEvent ev)
+        {
+            if (!handlers.ContainsKey(ev.name)) return;
+            foreach (Action<SocketIOEvent> handler in handlers[ev.name])
+            {
+                try
+                {
+                    handler(ev);
+                }
+                catch (Exception ex)
+                {
+                    Debug.Log("Exception in event handler: " + ex.Message);
+                }
+            }
+        }
+
+        private void InvokeAck(Packet packet)
+        {
+            for (int i = 0; i < ackList.Count; i++)
+            {
+                if (ackList[i].packetId != packet.id) continue;
+                ackList[i].Invoke(packet.json);
+                ackList.RemoveAt(i);
+                return;
             }
         }
 
@@ -517,26 +461,50 @@ namespace SocketIO
         {
             EmitEvent("open");
             Debug.Log("Socket connected.");
-            isconnected = true;
+            wsConnected = true;
+            MyScoketDisconnected = true;
         }
-
 
         private void OnMessage(object sender, MessageEventArgs e)
         {
             Packet packet = decoder.Decode(e);
-
             switch (packet.enginePacketType)
             {
-                case EnginePacketType.OPEN: HandleOpen(packet); break;
-                case EnginePacketType.CLOSE: EmitEvent("close"); break;
-                case EnginePacketType.PING: HandlePing(); break;
-                case EnginePacketType.PONG: HandlePong(); break;
-                case EnginePacketType.MESSAGE: HandleMessage(packet); break;
+                case EnginePacketType.OPEN:
+                    HandleOpen(packet);
+                    break;
+                case EnginePacketType.CLOSE:
+                    EmitEvent("close");
+                    break;
+                case EnginePacketType.PING:
+                    HandlePing();
+                    break;
+                case EnginePacketType.PONG:
+                    HandlePong();
+                    break;
+                case EnginePacketType.MESSAGE:
+                    HandleMessage(packet);
+                    break;
             }
+        }
+
+        private void OnError(object sender, ErrorEventArgs e)
+        {
+            EmitEvent("error");
+        }
+
+        private void OnClose(object sender, CloseEventArgs e)
+        {
+            EmitEvent("close");
+            Debug.Log("OnClose Socket disconnected.");
+            wsConnected = false;
+           
         }
 
         private void HandleOpen(Packet packet)
         {
+            Debug.Log("Received OPEN packet");
+
             sid = packet.json["sid"].str;
             EmitEvent("open");
         }
@@ -558,13 +526,8 @@ namespace SocketIO
 
             if (packet.socketPacketType == SocketPacketType.ACK)
             {
-                for (int i = 0; i < ackList.Count; i++)
-                {
-                    if (ackList[i].packetId != packet.id) continue;
-                    lock (ackQueueLock) { ackQueue.Enqueue(packet); }
-                    return;
-                }
-                Debug.Log("[SocketIO] Ack received for invalid Action: " + packet.id);
+                lock (ackQueueLock) { ackQueue.Enqueue(packet); }
+                return;
             }
 
             if (packet.socketPacketType == SocketPacketType.EVENT)
@@ -574,588 +537,49 @@ namespace SocketIO
             }
         }
 
-        private void OnError(object sender, ErrorEventArgs e)
-        {
-            EmitEvent("error");
-        }
+       
+    }
 
-        private void OnClose(object sender, CloseEventArgs e)
-        {
-            EmitEvent("close");
-            Debug.Log("Socket disconnected.");
-            isconnected = false;
+    // Singleton dispatcher class to run actions on the main thread
+    public class UnityMainThreadDispatcher : MonoBehaviour
+    {
+        private static readonly Queue<Action> _executionQueue = new Queue<Action>();
 
-        }
-
-        private void EmitEvent(string type)
+        public void Update()
         {
-            EmitEvent(new SocketIOEvent(type));
-        }
-
-        private void EmitEvent(SocketIOEvent ev)
-        {
-            if (!handlers.ContainsKey(ev.name)) return;
-            foreach (Action<SocketIOEvent> handler in this.handlers[ev.name].ToList())
+            lock (_executionQueue)
             {
-                try
+                while (_executionQueue.Count > 0)
                 {
-                    handler(ev);
-                }
-                catch (Exception ex)
-                {
-                    Debug.Log(ex.ToString());
+                    _executionQueue.Dequeue().Invoke();
                 }
             }
         }
 
-        private void InvokeAck(Packet packet)
+        public void Enqueue(Action action)
         {
-            Ack ack;
-            for (int i = 0; i < ackList.Count; i++)
+            lock (_executionQueue)
             {
-                if (ackList[i].packetId != packet.id) continue;
-                ack = ackList[i];
-                ackList.RemoveAt(i);
-                ack.Invoke(packet.json);
-                return;
+                _executionQueue.Enqueue(action);
             }
         }
 
-        #endregion
+        private static UnityMainThreadDispatcher _instance = null;
+
+        public static UnityMainThreadDispatcher Instance()
+        {
+            if (!_instance)
+            {
+                _instance = FindObjectOfType<UnityMainThreadDispatcher>();
+                if (!_instance)
+                {
+                    var obj = new GameObject("MainThreadDispatcher");
+                    _instance = obj.AddComponent<UnityMainThreadDispatcher>();
+                    DontDestroyOnLoad(obj);
+                }
+            }
+            return _instance;
+        }
     }
 }
-
-
-//#endregion
-
-////#define SOCKET_IO_DEBUG			// Uncomment this for debug
-//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using System.Threading;
-//using UnityEngine;
-//using UnityEngine.SceneManagement;
-//using WebSocketSharp;
-//using WebSocketSharp.Net;
-
-//namespace SocketIO
-//{
-//	public class SocketIOComponent : MonoBehaviour
-//	{
-//        #region Public Properties
-//		AsyncOperation MainScene;
-//        public string url = "ws://dragonan-7up.herokuapp.com/socket.io/?EIO=4&transport=websocket";
-//        public string UAT_url = "ws://dragonan-7up.herokuapp.com/socket.io/?EIO=4&transport=websocket";
-//		public string Production_url = "ws://dragonan-7up.herokuapp.com/socket.io/?EIO=4&transport=websocket";
-//        public bool isUAT;
-//		public bool autoConnect = true;
-//		public int reconnectDelay = 5;
-//		public float ackExpirationTime = 1800f;
-//		public float pingInterval = 25f;
-//		public float pingTimeout = 60f;
-
-//		public WebSocket socket { get { return ws; } }
-//		public string sid { get; set; }
-//		public bool IsConnected { get { return connected; } }
-
-//		#endregion
-
-//		#region Private Properties
-
-//		private volatile bool connected;
-//		private volatile bool thPinging;
-//		private volatile bool thPong;
-//		private volatile bool wsConnected;
-
-//		private Thread socketThread;
-//		private Thread pingThread;
-//		private WebSocket ws;
-
-//		private Encoder encoder;
-//		private Decoder decoder;
-//		private Parser parser;
-
-//		private Dictionary<string, List<Action<SocketIOEvent>>> handlers;
-//		private List<Ack> ackList;
-
-//		private int packetId;
-
-//		private object eventQueueLock;
-//		private Queue<SocketIOEvent> eventQueue;
-
-//		private object ackQueueLock;
-//		private Queue<Packet> ackQueue;
-
-//        #endregion
-
-//#if SOCKET_IO_DEBUG
-//		public Action<string> debugMethod;
-//#endif
-
-//        #region Unity interface
-
-
-
-
-//        private bool getIntentData()
-//        {
-//#if (!UNITY_EDITOR && UNITY_ANDROID)
-//        return CreatePushClass (new AndroidJavaClass ("com.unity3d.player.UnityPlayer"));
-//#endif
-//            return false;
-//        }
-
-//        public bool CreatePushClass(AndroidJavaClass UnityPlayer)
-//        {
-//#if UNITY_ANDROID
-//            AndroidJavaObject currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-//            AndroidJavaObject intent = currentActivity.Call<AndroidJavaObject>("getIntent");
-//            AndroidJavaObject extras = GetExtras(intent);
-
-//            if (extras != null)
-//            {
-//                string ex = GetProperty(extras, "userId");
-//                url = GetProperty(extras, "socketUrl");
-//                //PlayerPrefs.SetString(GetProperty(extras, "socketUrl"),"socketUrl");
-//                PlayerPrefs.SetString("userId", ex);
-//                return true;
-//            }
-//#endif
-//            return false;
-//        }
-
-//        private AndroidJavaObject GetExtras(AndroidJavaObject intent)
-//        {
-//            AndroidJavaObject extras = null;
-
-//            try
-//            {
-//                extras = intent.Call<AndroidJavaObject>("getExtras");
-//            }
-//            catch (Exception e)
-//            {
-//                Debug.Log(e.Message);
-//            }
-
-//            return extras;
-//        }
-
-//        private string GetProperty(AndroidJavaObject extras, string name)
-//        {
-//            string s = string.Empty;
-
-//            try
-//            {
-//                s = extras.Call<string>("getString", name);
-//            }
-//            catch (Exception e)
-//            {
-//                Debug.Log(e.Message);
-//            }
-
-//            return s;
-//        }
-
-//		public void Awake()
-//		{
-//            DontDestroyOnLoad(this.gameObject);
-
-//            #if (UNITY_EDITOR)
-//            if (isUAT)
-//                url = UAT_url;
-//            else
-//                url = Production_url;
-//            #else
-//            getIntentData ();
-
-//            #endif
-
-
-
-//            encoder = new Encoder();
-//			decoder = new Decoder();
-//			parser = new Parser();
-//			handlers = new Dictionary<string, List<Action<SocketIOEvent>>>();
-//			ackList = new List<Ack>();
-//			sid = null;
-//			packetId = 0;
-
-
-//			ws = new WebSocket(url);
-//			ws.OnOpen += OnOpen;
-//			ws.OnMessage += OnMessage;
-//			ws.OnError += OnError;
-//			ws.OnClose += OnClose;
-//			wsConnected = false;
-
-//			eventQueueLock = new object();
-//			eventQueue = new Queue<SocketIOEvent>();
-
-//			ackQueueLock = new object();
-//			ackQueue = new Queue<Packet>();
-
-//			connected = false;
-
-//			#if SOCKET_IO_DEBUG
-//			if(debugMethod == null) { debugMethod = Debug.Log; };
-//			#endif
-//		}
-
-
-//		public void Start()
-//		{
-//			if (autoConnect) { Connect(); }
-
-//            // SceneManager.LoadScene("MainScene");
-//            //MainScene = SceneManager.LoadSceneAsync("MainScene");
-//            //MainScene.allowSceneActivation = true;
-//        }
-
-//		public void Update()
-//		{
-//			lock(eventQueueLock){ 
-//				while(eventQueue.Count > 0){
-//					EmitEvent(eventQueue.Dequeue());
-//				}
-//			}
-
-//			lock(ackQueueLock){
-//				while(ackQueue.Count > 0){
-//					InvokeAck(ackQueue.Dequeue());
-//				}
-//			}
-
-//			if(wsConnected != ws.IsConnected){
-//				wsConnected = ws.IsConnected;
-//				if(wsConnected){
-//					EmitEvent("connect");
-//				} else {
-//					EmitEvent("disconnect");
-//				}
-//			}
-
-//			// GC expired acks
-//			if(ackList.Count == 0) { return; }
-//			if(DateTime.Now.Subtract(ackList[0].time).TotalSeconds < ackExpirationTime){ return; }
-//			ackList.RemoveAt(0);
-//		}
-
-//		public void OnDestroy()
-//		{
-//			if (socketThread != null ) 	{ 
-//				socketThread.Join();
-//				socketThread.Abort();
-//				// catch(ThreadAbortException e){
-//				// 	Debug.Log("Thread Abort Exception Occure and Catched"+e.ExceptionState);
-//				// }
-//				// finally{
-
-//				// 	Debug.Log("Thread Abort Finally for Socket Thread");
-//				// }
-//			}
-//			if (pingThread != null) {
-//				pingThread.Join();
-//				pingThread.Abort(); 
-//				// catch(ThreadAbortException e){
-//				// 	Debug.Log("Thread Abort Exception Occure and Catched"+e.ExceptionState);
-//				// }
-//				// finally{
-//				// 	Thread.ResetAbort();
-//				// 	Debug.Log("Thread Abort Finally for Ping Thread");
-//				// }
-//			}
-//		}
-
-//		public void OnApplicationQuit()
-//		{
-//			Close();
-//		}
-
-//		#endregion
-
-//		#region Public Interface
-
-//		public void Connect()
-//		{
-//			connected = true;
-
-//			socketThread = new Thread(RunSocketThread);
-//			socketThread.Start(ws);
-
-//			pingThread = new Thread(RunPingThread);
-//			pingThread.Start(ws);
-//		}
-
-//		public void Close()
-//		{
-//			EmitClose();
-//			connected = false;
-//		}
-
-//		public void On(string ev, Action<SocketIOEvent> callback)
-//		{
-//			if (!handlers.ContainsKey(ev)) {
-//				handlers[ev] = new List<Action<SocketIOEvent>>();
-//			}
-//			handlers[ev].Add(callback);
-//		}
-
-//		public void Off(string ev, Action<SocketIOEvent> callback)
-//		{
-//			if (!handlers.ContainsKey(ev)) {
-//				#if SOCKET_IO_DEBUG
-//				debugMethod.Invoke("[SocketIO] No callbacks registered for event: " + ev);
-//				#endif
-//				return;
-//			}
-
-//			List<Action<SocketIOEvent>> l = handlers [ev];
-//			if (!l.Contains(callback)) {
-//				#if SOCKET_IO_DEBUG
-//				debugMethod.Invoke("[SocketIO] Couldn't remove callback action for event: " + ev);
-//				#endif
-//				return;
-//			}
-
-//			l.Remove(callback);
-//			if (l.Count == 0) {
-//				handlers.Remove(ev);
-//			}
-//		}
-
-//		public void Emit(string ev)
-//		{
-//			EmitMessage(-1, string.Format("[\"{0}\"]", ev));
-//		}
-
-//		public void Emit(string ev, Action<JSONObject> action)
-//		{
-//			EmitMessage(++packetId, string.Format("[\"{0}\"]", ev));
-//			ackList.Add(new Ack(packetId, action));
-//		}
-
-//		public void Emit(string ev, JSONObject data)
-//		{
-//			EmitMessage(-1, string.Format("[\"{0}\",{1}]", ev, data));
-//		}
-
-//		public void Emit(string ev, JSONObject data, Action<JSONObject> action)
-//		{
-//			EmitMessage(++packetId, string.Format("[\"{0}\",{1}]", ev, data));
-//			ackList.Add(new Ack(packetId, action));
-//		}
-//            public void Emit(string ev, string data, Action<JSONObject> action)
-//        {
-//            EmitMessage(++packetId, string.Format("[\"{0}\",{1}]", ev, data));
-//            ackList.Add(new Ack(packetId, action));
-//        }
-
-//		#endregion
-
-//		#region Private Methods
-
-//		private void RunSocketThread(object obj)
-//		{
-//			WebSocket webSocket = (WebSocket)obj;
-//			try
-//			{
-//				while(connected){
-//					if(webSocket.IsConnected){
-//						Thread.Sleep(reconnectDelay);
-//					} else {
-//						webSocket.Connect();
-//					}
-//				}
-//				webSocket.Close();
-//			}	
-
-//			catch(ThreadAbortException e){
-//				webSocket.Close();
-//				Thread.ResetAbort();
-//				Debug.Log("Thread Abort Exception Occure and Catched"+e.HelpLink + e.Message);
-//			}
-//			// finally{
-
-//			// 	Debug.Log("Thread Abort Finally for Socket Thread");
-//			// }
-//		}
-
-//		private void RunPingThread(object obj)
-//		{
-//			WebSocket webSocket = (WebSocket)obj;
-
-//			int timeoutMilis = Mathf.FloorToInt(pingTimeout * 1000);
-//			int intervalMilis = Mathf.FloorToInt(pingInterval * 1000);
-
-//			DateTime pingStart;
-
-//			try
-//			{
-//				while(connected)
-//				{
-//					if(!wsConnected){
-//						Thread.Sleep(reconnectDelay);
-//					} else {
-//						thPinging = true;
-//						thPong =  false;
-
-//						EmitPacket(new Packet(EnginePacketType.PING));
-//						pingStart = DateTime.Now;
-
-//						while(webSocket.IsConnected && thPinging && (DateTime.Now.Subtract(pingStart).TotalSeconds < timeoutMilis)){
-//							Thread.Sleep(200);
-//						}
-
-//						if(!thPong){
-//							webSocket.Close();
-//						}
-
-//						Thread.Sleep(intervalMilis);
-//					}
-//				}
-
-//			}
-//			catch(ThreadAbortException e){
-//				Debug.Log("Thread Abort Exception Occure and Catched"+e.HelpLink +e.Message);
-//				Thread.ResetAbort();
-//			}
-//			// finally{
-
-//			// 	Debug.Log("Thread Abort Finally for Ping Thread");
-//			// }
-
-//		}
-
-//		private void EmitMessage(int id, string raw)
-//		{
-//			EmitPacket(new Packet(EnginePacketType.MESSAGE, SocketPacketType.EVENT, 0, "/", id, new JSONObject(raw)));
-//		}
-
-//		private void EmitClose()
-//		{
-//			EmitPacket(new Packet(EnginePacketType.MESSAGE, SocketPacketType.DISCONNECT, 0, "/", -1, new JSONObject("")));
-//			EmitPacket(new Packet(EnginePacketType.CLOSE));
-//		}
-
-//		private void EmitPacket(Packet packet)
-//		{
-//			#if SOCKET_IO_DEBUG
-//			debugMethod.Invoke("[SocketIO] " + packet);
-//			#endif
-
-//			try {
-//				ws.Send(encoder.Encode(packet));
-//			} catch(SocketIOException ex) {
-//				#if SOCKET_IO_DEBUG
-//				debugMethod.Invoke(ex.ToString());
-//				#endif
-//			}
-//		}
-
-//		private void OnOpen(object sender, EventArgs e)
-//		{
-//			EmitEvent("open");
-//		}
-
-//		private void OnMessage(object sender, MessageEventArgs e)
-//		{
-//			#if SOCKET_IO_DEBUG
-//			debugMethod.Invoke("[SocketIO] Raw message: " + e.Data);
-//			#endif
-//			Packet packet = decoder.Decode(e);
-
-//			switch (packet.enginePacketType) {
-//				case EnginePacketType.OPEN: 	HandleOpen(packet);		break;
-//				case EnginePacketType.CLOSE: 	EmitEvent("close");		break;
-//				case EnginePacketType.PING:		HandlePing();	   		break;
-//				case EnginePacketType.PONG:		HandlePong();	   		break;
-//				case EnginePacketType.MESSAGE: 	HandleMessage(packet);	break;
-//			}
-//		}
-
-//		private void HandleOpen(Packet packet)
-//		{
-//			#if SOCKET_IO_DEBUG
-//			debugMethod.Invoke("[SocketIO] Socket.IO sid: " + packet.json["sid"].str);
-//			#endif
-//			sid = packet.json["sid"].str;
-//			EmitEvent("open");
-//		}
-
-//		private void HandlePing()
-//		{
-//			EmitPacket(new Packet(EnginePacketType.PONG));
-//		}
-
-//		private void HandlePong()
-//		{
-//			thPong = true;
-//			thPinging = false;
-//		}
-
-//		private void HandleMessage(Packet packet)
-//		{
-//			if(packet.json == null) { return; }
-
-//			if(packet.socketPacketType == SocketPacketType.ACK){
-//				for(int i = 0; i < ackList.Count; i++){
-//					if(ackList[i].packetId != packet.id){ continue; }
-//					lock(ackQueueLock){ ackQueue.Enqueue(packet); }
-//					return;
-//				}
-
-//				#if SOCKET_IO_DEBUG
-//				debugMethod.Invoke("[SocketIO] Ack received for invalid Action: " + packet.id);
-//				#endif
-//			}
-
-//			if (packet.socketPacketType == SocketPacketType.EVENT) {
-//				SocketIOEvent e = parser.Parse(packet.json);
-//				lock(eventQueueLock){ eventQueue.Enqueue(e); }
-//			}
-//		}
-
-//		private void OnError(object sender, ErrorEventArgs e)
-//		{
-//			EmitEvent("error");
-//		}
-
-//		private void OnClose(object sender, CloseEventArgs e)
-//		{
-//			EmitEvent("close");
-//		}
-
-//		private void EmitEvent(string type)
-//		{
-//			EmitEvent(new SocketIOEvent(type));
-//		}
-
-//		private void EmitEvent(SocketIOEvent ev)
-//		{
-//			if (!handlers.ContainsKey(ev.name)) { return; }
-//			foreach (Action<SocketIOEvent> handler in this.handlers[ev.name].ToList()) {
-//				try{
-//					handler(ev);
-//				} catch(Exception ex){
-//					#if SOCKET_IO_DEBUG
-//					debugMethod.Invoke(ex.ToString());
-//					#endif
-//				}
-//			}
-//		}
-
-//		private void InvokeAck(Packet packet)
-//		{
-//			Ack ack;
-//			for(int i = 0; i < ackList.Count; i++){
-//				if(ackList[i].packetId != packet.id){ continue; }
-//				ack = ackList[i];
-//				ackList.RemoveAt(i);
-//				ack.Invoke(packet.json);
-//				return;
-//			}
-//		}
-
-//		#endregion
-//	}
-//}
+#endregion

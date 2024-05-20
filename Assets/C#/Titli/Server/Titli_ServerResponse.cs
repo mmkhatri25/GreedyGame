@@ -5,6 +5,7 @@ using Titli.UI;
 using Titli.Gameplay;
 using UnityEngine.SceneManagement;
 using System;
+using System.Net.Sockets;
 
 namespace Titli.ServerStuff
 {
@@ -18,7 +19,17 @@ namespace Titli.ServerStuff
             socket = GameObject.Find("SocketIOComponents").GetComponent<SocketIOComponent>();
             Instance = this;
         }
+        private void Update()
+        {
+            //if(socket.MyScoketDisconnected)
+            //{
+            //    print("1111 Titli_ServerResponse Removed Listners..." + socket.MyScoketDisconnected);
 
+            //    socket.MyScoketDisconnected = false;
+
+            //    removeSocketListener();
+            //}
+        }
         private void Start()
         {
             socket.On("open", OnConnected);
@@ -44,12 +55,12 @@ namespace Titli.ServerStuff
 
         void OnConnected(SocketIOEvent e)
         {
-            Debug.Log("On Socket connected " + e.data);
+            Debug.Log("Titli_ServerResponse On Socket connected " + e.data);
         }
 
         void OnDisconnected(SocketIOEvent e)
         {
-            Debug.Log("On Socket  disconnected" + e.data);
+            Debug.Log(" server response On Socket  disconnected" + e.data);
             removeSocketListener();
             if (Application.isEditor)
             {
@@ -79,6 +90,8 @@ namespace Titli.ServerStuff
             socket.Off(Events.userWinAmount, OnuserWinAmount);
             socket.Off(Events.topWinner, OntopWinner);
             socket.Off(Events.winnerList, OnwinnerList);
+            print("2222 Titli_ServerResponse Removed Listners..." + socket.MyScoketDisconnected);
+
         }
 
         void OnBetsPlaced(SocketIOEvent e)
@@ -133,18 +146,19 @@ namespace Titli.ServerStuff
             Titli_Timer.Instance.is_a_FirstRound = false;
             Titli_Timer.Instance.waittext.gameObject.SetActive(false);
             Titli_Timer.Instance.countdownTxt.gameObject.SetActive(true);
-            Debug.Log("here game start - " + e.data.ToString());
+            //Debug.Log("here game start - " + e.data.ToString());
         }
 
         void OnTimerUp(SocketIOEvent e)
         {
             Titli_Timer.Instance.OnTimeUp((object)e.data);
         }
-        //public CurrentTimer currentTimer;
+        
         void OnCurrentTimer(SocketIOEvent e)
         {
             //currentTimer = (CurrentTimer)JsonUtility.FromJson(e.ToString(), typeof(CurrentTimer));
-            Debug.Log("OnCurrentTimer - "+ e.data);
+            //Debug.Log("OnCurrentTimer  - "+ e.data);
+            Titli_UiHandler.Instance.OnCurrentTimerReceived(e.data);
             //if(PlayerPrefs.GetInt("RoundNumber", currentTimer.RoundCount) == currentTimer.RoundCount)
             //{
             //    print("1 RoundNumber - "+ currentTimer.RoundCount);
@@ -167,9 +181,5 @@ namespace Titli.ServerStuff
             Debug.Log("OnHistoryRecord " + e.data);
         }
     }
-    //[Serializable]
-    //public class CurrentTimer
-    //{
-    //    public int RoundCount;
-    //}
+    
 }

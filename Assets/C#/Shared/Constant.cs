@@ -20,6 +20,8 @@ namespace Shared
         Chip100 = 100,
         Chip1000 = 1000,
         Chip10000 = 10000,
+        //ChipCustome =,
+
     }
 
     public enum Spot
