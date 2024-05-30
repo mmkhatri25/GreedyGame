@@ -17,6 +17,7 @@ namespace SocketIO
         public bool isUAT;
 
         public string url, uatUrl, productionUrl;
+        public string socketUrl;
         public string userIdUat, userIdLive, userIdVar;
 
         public class BalanceREsponse
@@ -51,6 +52,8 @@ namespace SocketIO
                 userIdVar = userIdLive;
 
             }
+            Debug.Log("===== splash class");
+
             StartCoroutine(GetDataApi(url, userIdVar));
             PlayerPrefs.SetString("userId", userIdVar);
             #else
@@ -79,6 +82,8 @@ namespace SocketIO
             {
                 string ex = GetProperty(extras, "userId");
                 url = GetProperty(extras, "url");
+                socketUrl = GetProperty(extras, "socketUrl");
+                PlayerPrefs.SetString("socketurl", socketUrl);
                 PlayerPrefs.SetString("userId", ex);
                 return true;
             }

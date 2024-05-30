@@ -332,7 +332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GreedyGameScene: GreedyScene
-  isUAT: 1
+  isUAT: 0
   url: 
   uatUrl: https://gapi-uat.yaravoice.com
   productionUrl: https://gapi.yaravoice.com:4002
@@ -624,7 +624,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 495038765954590892, guid: b1c317f1d143d46308afc126622a189c, type: 3}
       propertyPath: isUAT
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 495038765954590892, guid: b1c317f1d143d46308afc126622a189c, type: 3}
       propertyPath: UAT_url

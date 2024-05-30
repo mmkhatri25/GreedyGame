@@ -141,10 +141,13 @@ namespace Titli.Gameplay
             {
                 if (i == 1)
                 {
+                    Debug.Log("1 countdown - " + i);
+
                     startCountDown?.Invoke();
                     //countdownTxt.text = "wait..";
                     //print("here countdown become 0 ...");
-                
+                countdownTxt.text = i.ToString();
+
 
                 }
                 else
@@ -155,8 +158,9 @@ namespace Titli.Gameplay
 
                 if (i <= 0)
                 {
-            countdownTxt.text = ""; 
-                
+                    Debug.Log("2 countdown - "+ i);
+                    countdownTxt.text = "";
+
                     //waittext.gameObject.SetActive(true);
                     //countdownTxt.gameObject.SetActive(false);
                 }
@@ -203,8 +207,8 @@ namespace Titli.Gameplay
             for (int i = time != -1 ? time : timeUpTimer; i >= 0; i--)
             {
                 // messageTxt.text = "Time Up";
-                countdownTxt.text = "";//i.ToString();
-                //print("here counting ... " +countdownTxt.text );
+                //countdownTxt.text = "Time Up";//i.ToString();
+                print("here counting ... " +countdownTxt.text );
                 
                 yield return new WaitForSecondsRealtime(1f);
             }

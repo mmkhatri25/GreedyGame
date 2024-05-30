@@ -110,10 +110,19 @@ namespace SocketIO
 
 
             // Set URL based on environment
-            if (isUAT)
-                url = UAT_url;
-            else
-                url = Production_url;
+            //if (isUAT)
+            //    url = UAT_url;
+            //else
+            //    url = Production_url;
+            Debug.Log("==== socketIOclass");
+            #if (UNITY_EDITOR)
+                 if (isUAT)
+                     url = UAT_url;
+                 else
+                     url = Production_url;
+            #else
+                 url = PlayerPrefs.GetString("socketurl");
+            #endif
 
             encoder = new Encoder();
             decoder = new Decoder();
